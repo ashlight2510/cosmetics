@@ -87,6 +87,34 @@
         font-size: 16px;
         margin: 0 0 10px;
       }
+      .step {
+        display: none;
+      }
+      .step.active {
+        display: block;
+      }
+      .step-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        font-size: 12px;
+        color: #667085;
+      }
+      .step-indicator {
+        font-weight: 700;
+        color: #1d2a6a;
+      }
+      .step-nav {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 14px;
+      }
+      .step-nav .ghost {
+        background: #eef2ff;
+        color: #1d2a6a;
+      }
       .row {
         display: flex;
         gap: 10px;
@@ -179,6 +207,28 @@
         margin: 14px 0 6px;
         font-size: 14px;
       }
+      .verdict {
+        background: #f3f6ff;
+        border: 1px solid #dfe6ff;
+        border-radius: 14px;
+        padding: 12px 14px;
+        margin-top: 8px;
+      }
+      .verdict strong {
+        display: block;
+        font-size: 15px;
+        margin-bottom: 6px;
+        color: #132257;
+      }
+      .share-line {
+        margin-top: 8px;
+        font-size: 12.5px;
+        color: #3d4a7a;
+        background: #eef2ff;
+        border: 1px dashed #c7d2ff;
+        padding: 8px 10px;
+        border-radius: 12px;
+      }
       .kpi {
         display: flex;
         gap: 10px;
@@ -237,74 +287,92 @@
       <div class="grid">
         <!-- INPUT -->
         <section class="card">
-          <h2>1) 지금 쓰는 제품 종류</h2>
-          <div class="row" id="products">
-            <label class="chip"
-              ><input type="checkbox" value="toner" />토너</label
-            >
-            <label class="chip"
-              ><input type="checkbox" value="serum" />에센스/세럼</label
-            >
-            <label class="chip"
-              ><input type="checkbox" value="lotion" />로션</label
-            >
-            <label class="chip"
-              ><input type="checkbox" value="cream" />크림</label
-            >
-            <label class="chip"
-              ><input type="checkbox" value="sunscreen" />선크림</label
-            >
-            <label class="chip"
-              ><input type="checkbox" value="cushion" />쿠션/파운데이션</label
-            >
-            <label class="chip"
-              ><input type="checkbox" value="allinone" />올인원</label
-            >
-            <label class="chip"
-              ><input type="checkbox" value="exfoliant" />각질/트러블
-              케어(AHA/BHA 등)</label
-            >
+          <div class="step-meta">
+            <span>단계별로 눌러주세요</span>
+            <span class="step-indicator" id="stepLabel">1 / 4</span>
           </div>
 
-          <h2 style="margin-top: 14px">2) 내 제품 특징(체감 기준)</h2>
-          <div class="row" id="traits">
-            <label class="chip"
-              ><input type="checkbox" value="hydrating" />보습 위주</label
-            >
-            <label class="chip"
-              ><input type="checkbox" value="light" />유분 적음/가벼움</label
-            >
-            <label class="chip"
-              ><input type="checkbox" value="soothing" />진정/쿨링 느낌</label
-            >
-            <label class="chip"
-              ><input type="checkbox" value="toneup" />톤 보정/메이크업
-              대체</label
-            >
-            <label class="chip"
-              ><input type="checkbox" value="spf" />자외선 차단 포함</label
-            >
+          <div class="step active" data-step="1">
+            <h2>1) 지금 쓰는 제품 종류</h2>
+            <div class="row" id="products">
+              <label class="chip"
+                ><input type="checkbox" value="toner" />토너</label
+              >
+              <label class="chip"
+                ><input type="checkbox" value="serum" />에센스/세럼</label
+              >
+              <label class="chip"
+                ><input type="checkbox" value="lotion" />로션</label
+              >
+              <label class="chip"
+                ><input type="checkbox" value="cream" />크림</label
+              >
+              <label class="chip"
+                ><input type="checkbox" value="sunscreen" />선크림</label
+              >
+              <label class="chip"
+                ><input type="checkbox" value="cushion" />쿠션/파운데이션</label
+              >
+              <label class="chip"
+                ><input type="checkbox" value="allinone" />올인원</label
+              >
+              <label class="chip"
+                ><input type="checkbox" value="exfoliant" />각질/트러블
+                케어(AHA/BHA 등)</label
+              >
+            </div>
           </div>
 
-          <h2 style="margin-top: 14px">3) 피부 타입</h2>
-          <select id="skin">
-            <option value="unknown">잘 모르겠음</option>
-            <option value="dry">건성</option>
-            <option value="oily">지성</option>
-            <option value="combo">복합성</option>
-            <option value="sensitive">민감성</option>
-          </select>
+          <div class="step" data-step="2">
+            <h2>2) 내 제품 특징(체감 기준)</h2>
+            <div class="row" id="traits">
+              <label class="chip"
+                ><input type="checkbox" value="hydrating" />보습 위주</label
+              >
+              <label class="chip"
+                ><input type="checkbox" value="light" />유분 적음/가벼움</label
+              >
+              <label class="chip"
+                ><input type="checkbox" value="soothing" />진정/쿨링 느낌</label
+              >
+              <label class="chip"
+                ><input type="checkbox" value="toneup" />톤 보정/메이크업
+                대체</label
+              >
+              <label class="chip"
+                ><input type="checkbox" value="spf" />자외선 차단 포함</label
+              >
+            </div>
+          </div>
 
-          <h2 style="margin-top: 14px">4) 목표</h2>
-          <select id="goal">
-            <option value="simplify">최대한 단순화(귀찮음 최소)</option>
-            <option value="balance">기능 밸런스(최소 구성)</option>
-            <option value="makeup">톤보정/메이크업 겸용 선호</option>
-          </select>
+          <div class="step" data-step="3">
+            <h2>3) 피부 타입</h2>
+            <select id="skin">
+              <option value="unknown">잘 모르겠음</option>
+              <option value="dry">건성</option>
+              <option value="oily">지성</option>
+              <option value="combo">복합성</option>
+              <option value="sensitive">민감성</option>
+            </select>
+          </div>
 
-          <div class="btns">
-            <button class="primary" id="analyze">분석하기</button>
-            <button class="ghost" id="reset">초기화</button>
+          <div class="step" data-step="4">
+            <h2>4) 목표</h2>
+            <select id="goal">
+              <option value="simplify">최대한 단순화(귀찮음 최소)</option>
+              <option value="balance">기능 밸런스(최소 구성)</option>
+              <option value="makeup">톤보정/메이크업 겸용 선호</option>
+            </select>
+
+            <div class="btns">
+              <button class="primary" id="analyze">분석하기</button>
+              <button class="ghost" id="reset">초기화</button>
+            </div>
+          </div>
+
+          <div class="step-nav">
+            <button class="ghost" id="prevStep">이전</button>
+            <button class="ghost" id="nextStep">다음</button>
           </div>
 
           <p class="muted" style="margin-top: 10px">
@@ -318,18 +386,24 @@
         <section class="card result" aria-live="polite">
           <h2>결과</h2>
 
+          <div class="verdict" id="verdictBox">
+            <strong id="verdictTitle">-</strong>
+            <span id="verdictDetail">-</span>
+            <div class="share-line" id="shareLine">-</div>
+          </div>
+
           <div class="kpi">
             <div class="box">
-              <p class="t">추천 루틴 형태</p>
-              <p class="v" id="routineType">-</p>
+              <p class="t">현재 단계 수</p>
+              <p class="v" id="currentSteps">-</p>
             </div>
             <div class="box">
-              <p class="t">핵심 누락</p>
-              <p class="v" id="missingCount">-</p>
+              <p class="t">추천 최소 단계</p>
+              <p class="v" id="minSteps">-</p>
             </div>
             <div class="box">
-              <p class="t">과잉/중복 경고</p>
-              <p class="v" id="excessCount">-</p>
+              <p class="t">줄일 수 있는 단계</p>
+              <p class="v" id="reduceSteps">-</p>
             </div>
           </div>
 
@@ -343,13 +417,23 @@
             <li>-</li>
           </ul>
 
+          <h3><span class="pill warn">삭제</span>지금 안 해도 되는 것</h3>
+          <ul id="skipList">
+            <li>-</li>
+          </ul>
+
           <h3><span class="pill warn">주의</span>중복/자극 가능성</h3>
           <ul id="warnList">
             <li>-</li>
           </ul>
 
-          <h3>추천(기능 기반)</h3>
-          <ul id="recList">
+          <h3>대체/정리 추천</h3>
+          <ul id="swapList">
+            <li>-</li>
+          </ul>
+
+          <h3>추천 최소 루틴(예시)</h3>
+          <ul id="minRoutineList">
             <li>-</li>
           </ul>
 
@@ -425,7 +509,9 @@
         const ok = [];
         const missing = [];
         const warn = [];
-        const rec = [];
+        const skip = [];
+        const swap = [];
+        const minRoutine = [];
 
         // 1) SPF is the main "missing" for daytime routines
         if (has.spf) ok.push("자외선 차단(선케어)");
@@ -492,54 +578,79 @@
             "SPF 제품이 2개 이상 겹칩니다. 사용감/밀림이 생기면 하나만 남겨도 됩니다."
           );
 
-        // 6) Output routine type suggestion
-        let routineType = "기본";
-        if (goal === "simplify") routineType = "2-스텝(보습 + 선케어)";
-        if (goal === "balance")
-          routineType = "2~3-스텝(보습 + 선케어 + 선택 케어)";
-        if (goal === "makeup") routineType = "2-스텝(선케어 + 톤보정 겸용)";
+        // 6) Skip list (what you can drop now)
+        if (products.includes("toner") && (products.includes("lotion") || products.includes("cream") || products.includes("allinone")))
+          skip.push("토너: 로션/크림/올인원이 있으면 필수 아님");
+        if (products.includes("serum") && baseCount >= 3)
+          skip.push("세럼: 기초 단계가 많으면 우선 빼고 체감 확인");
+        if (has.spf && has.tone)
+          skip.push("쿠션/톤보정: 선케어가 충분하면 생략 가능");
+        if (has.exfoliate)
+          skip.push("각질 케어: 매일은 불필요(주 2~3회면 충분)");
 
-        // 7) Recommendations (feature-based, not product-specific)
-        // Keep it "minimum add" oriented.
-        if (!has.spf) {
-          if (goal === "makeup")
-            rec.push(
-              "SPF 포함 톤업/쿠션 제품 1개로 선케어+톤보정을 합치는 방향을 고려해 보세요."
-            );
-          else rec.push("선크림 1개 추가(가벼운 제형 우선).");
-        } else {
-          rec.push(
-            "선케어는 유지: 자극 없고 매일 바르기 쉬운 사용감이면 충분합니다."
-          );
-        }
-
-        if (!has.hydrate)
-          rec.push("보습은 1개만 추가: 올인원 또는 로션/크림 중 하나만 선택.");
+        // 7) Swap / consolidate suggestions
+        if (products.includes("sunscreen") && products.includes("cushion"))
+          swap.push("선크림 + 쿠션 → 톤업 선크림 1개로 합치기 가능");
+        if (products.includes("toner") && products.includes("lotion"))
+          swap.push("토너 + 로션 → 가벼운 로션 1개로 대체 가능");
+        if (products.includes("lotion") && products.includes("cream"))
+          swap.push("로션 + 크림 → 보습감 기준으로 1개만 남기기");
         if (goal === "simplify" && baseCount >= 3)
-          rec.push(
-            "기초는 (토너/세럼/로션/크림) 중 1개만 남기고 나머지는 중단해보며 체감 확인."
+          swap.push(
+            "기초 다단계 → 올인원 1개 또는 로션 1개로 정리 권장"
           );
 
-        if (has.exfoliate) {
-          rec.push(
-            "각질/트러블 케어는 격일/주 2~3회처럼 낮은 빈도에서 시작하는 편이 안전합니다(특히 민감성)."
-          );
-        } else {
-          if (skin !== "sensitive")
-            rec.push(
-              "피부결이 고민이면 ‘각질 케어’는 선택 옵션입니다(필수는 아님)."
-            );
+        // 8) Minimal routine example
+        if (!has.spf)
+          minRoutine.push("아침: 가벼운 보습 1개 + 선크림 1개(추가)");
+        else if (goal === "makeup")
+          minRoutine.push("아침: 톤업 가능한 선크림 1개로 통합");
+        else minRoutine.push("아침: 보습 1개 + 선케어 1개");
+        minRoutine.push("저녁: 보습 1개만");
+        if (has.exfoliate)
+          minRoutine.push("각질 케어: 주 2~3회로 빈도 낮추기");
+
+        // 9) Verdict + numbers
+        const spfStep = has.spf ? 1 : 0;
+        const toneStep = has.tone ? 1 : 0;
+        const exfoliateStep = has.exfoliate ? 1 : 0;
+        const currentSteps = baseCount + spfStep + toneStep + exfoliateStep;
+        const minSteps = 2;
+        const reducible = Math.max(0, currentSteps - minSteps);
+
+        let verdictTitle = "👉 이미 최소 루틴입니다";
+        let verdictDetail =
+          "지금보다 더 줄이면 보습 체감이 떨어질 가능성이 큽니다.";
+        if (!has.spf || !has.hydrate) {
+          verdictTitle = "👉 핵심이 비어 있습니다";
+          verdictDetail =
+            "보습 또는 선케어 중 하나는 꼭 채우는 편이 안전합니다.";
+        } else if (reducible >= 2) {
+          verdictTitle = "👉 지금 루틴은 조금 과합니다";
+          verdictDetail =
+            "2단계까지 줄여도 체감 차이가 거의 없을 가능성이 큽니다.";
+        } else if (reducible === 1) {
+          verdictTitle = "👉 약간 많은 편입니다";
+          verdictDetail =
+            "한 단계만 줄여도 귀찮음이 눈에 띄게 줄어듭니다.";
         }
 
-        // 8) Normalize / de-dup
+        const shareLine = `현재 ${currentSteps}단계 → 추천 최소 ${minSteps}단계, 내일 줄일 수 있는 단계 -${reducible}`;
+
+        // 10) Normalize / de-dup
         renderList($("#okList"), uniq(ok));
         renderList($("#missingList"), uniq(missing));
         renderList($("#warnList"), uniq(warn));
-        renderList($("#recList"), uniq(rec));
+        renderList($("#skipList"), uniq(skip));
+        renderList($("#swapList"), uniq(swap));
+        renderList($("#minRoutineList"), uniq(minRoutine));
 
-        $("#routineType").textContent = routineType;
-        $("#missingCount").textContent = String(uniq(missing).length);
-        $("#excessCount").textContent = String(uniq(warn).length);
+        $("#verdictTitle").textContent = verdictTitle;
+        $("#verdictDetail").textContent = verdictDetail;
+        $("#shareLine").textContent = shareLine;
+        $("#currentSteps").textContent = `${currentSteps}단계`;
+        $("#minSteps").textContent = `${minSteps}단계`;
+        $("#reduceSteps").textContent = `-${reducible}`;
       }
 
       function resetAll() {
@@ -547,17 +658,50 @@
         $("#skin").value = "unknown";
         $("#goal").value = "simplify";
         // Clear outputs
-        $("#routineType").textContent = "-";
-        $("#missingCount").textContent = "-";
-        $("#excessCount").textContent = "-";
+        $("#verdictTitle").textContent = "-";
+        $("#verdictDetail").textContent = "-";
+        $("#shareLine").textContent = "-";
+        $("#currentSteps").textContent = "-";
+        $("#minSteps").textContent = "-";
+        $("#reduceSteps").textContent = "-";
         renderList($("#okList"), []);
         renderList($("#missingList"), []);
         renderList($("#warnList"), []);
-        renderList($("#recList"), []);
+        renderList($("#skipList"), []);
+        renderList($("#swapList"), []);
+        renderList($("#minRoutineList"), []);
+        setStep(1);
       }
 
       $("#analyze").addEventListener("click", analyze);
       $("#reset").addEventListener("click", resetAll);
+
+      const steps = Array.from(document.querySelectorAll(".step"));
+      const totalSteps = steps.length;
+
+      function setStep(index) {
+        steps.forEach((step, idx) => {
+          step.classList.toggle("active", idx === index - 1);
+        });
+        $("#stepLabel").textContent = `${index} / ${totalSteps}`;
+        $("#prevStep").disabled = index === 1;
+        $("#nextStep").disabled = index === totalSteps;
+        $("#prevStep").style.opacity = index === 1 ? "0.5" : "1";
+        $("#nextStep").style.opacity = index === totalSteps ? "0.5" : "1";
+      }
+
+      let currentStep = 1;
+      setStep(currentStep);
+
+      $("#prevStep").addEventListener("click", () => {
+        if (currentStep > 1) currentStep -= 1;
+        setStep(currentStep);
+      });
+
+      $("#nextStep").addEventListener("click", () => {
+        if (currentStep < totalSteps) currentStep += 1;
+        setStep(currentStep);
+      });
 
       // Initial defaults
       resetAll();
