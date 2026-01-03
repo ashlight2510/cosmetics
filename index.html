@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      property="og:image"
+      content="https://dummyimage.com/1200x630/0f172a/ffffff&text=Cosmetics"
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232f5cff'/%3E%3Cpath d='M20 40c6-8 18-8 24 0' stroke='%23fff' stroke-width='4' stroke-linecap='round' fill='none'/%3E%3Ccircle cx='24' cy='26' r='4' fill='%23fff'/%3E%3Ccircle cx='40' cy='26' r='4' fill='%23fff'/%3E%3C/svg%3E"
+    />
+    <title>화장품 루틴 딸깍 체크</title>
+    <style>
+      :root {
+        color-scheme: light;
+      }
+      body {
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR",
+          sans-serif;
+        margin: 0;
+        background: #f6f7fb;
+        color: #111;
+      }
+      .wrap {
+        max-width: 920px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+      header {
+        background: #fff;
+        border: 1px solid #e7e7ee;
+        border-radius: 14px;
+        padding: 18px 18px 14px;
+      }
+      h1 {
+        font-size: 20px;
+        margin: 0 0 6px;
+      }
+      p.sub {
+        margin: 0;
+        color: #444;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+      .header-actions {
+        margin-top: 12px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .link-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid #dfe3ff;
+        border-radius: 999px;
+        padding: 8px 14px;
+        background: #eef2ff;
+        color: #1d2a6a;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 13px;
+      }
+      .link-btn:hover {
+        background: #e1e7ff;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+        margin-top: 14px;
+      }
+      @media (min-width: 860px) {
+        .grid {
+          grid-template-columns: 1.05fr 0.95fr;
+        }
+      }
+      .card {
+        background: #fff;
+        border: 1px solid #e7e7ee;
+        border-radius: 14px;
+        padding: 16px;
+      }
+      .card h2 {
+        font-size: 16px;
+        margin: 0 0 10px;
+      }
+      .row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid #e7e7ee;
+        border-radius: 999px;
+        padding: 8px 10px;
+        background: #fafbff;
+        cursor: pointer;
+        user-select: none;
+      }
+      .chip input {
+        width: 16px;
+        height: 16px;
+      }
+      label {
+        font-size: 14px;
+      }
+      select {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 12px;
+        border: 1px solid #e7e7ee;
+        background: #fff;
+        font-size: 14px;
+      }
+      .btns {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+      button {
+        border: 0;
+        border-radius: 12px;
+        padding: 10px 12px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      button.primary {
+        background: #2f5cff;
+        color: #fff;
+      }
+      button.ghost {
+        background: #eef2ff;
+        color: #1d2a6a;
+      }
+      .muted {
+        color: #555;
+        font-size: 12.5px;
+        line-height: 1.5;
+      }
+      .pill {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        margin-right: 8px;
+      }
+      .ok {
+        background: #e8fff1;
+        color: #0a6b2f;
+        border: 1px solid #b6f2cc;
+      }
+      .warn {
+        background: #fff7e8;
+        color: #7a4b00;
+        border: 1px solid #ffe0a6;
+      }
+      .bad {
+        background: #ffecec;
+        color: #7a0010;
+        border: 1px solid #ffc2c9;
+      }
+      ul {
+        margin: 8px 0 0;
+        padding-left: 18px;
+      }
+      li {
+        margin: 5px 0;
+        line-height: 1.45;
+      }
+      .result h3 {
+        margin: 14px 0 6px;
+        font-size: 14px;
+      }
+      .kpi {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 8px;
+      }
+      .kpi .box {
+        border: 1px solid #e7e7ee;
+        border-radius: 12px;
+        padding: 10px 12px;
+        min-width: 160px;
+      }
+      .kpi .t {
+        font-size: 12px;
+        color: #555;
+        margin: 0 0 4px;
+      }
+      .kpi .v {
+        font-size: 16px;
+        font-weight: 800;
+        margin: 0;
+      }
+      footer {
+        margin-top: 14px;
+        color: #666;
+        font-size: 12px;
+      }
+      code.inline {
+        background: #f1f3ff;
+        border: 1px solid #e4e7ff;
+        padding: 1px 6px;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>화장품 루틴 딸깍 체크</h1>
+        <p class="sub">
+          지금 쓰는 제품/특징만 체크하면, 루틴에서 <b>부족·과잉</b>을 표시하고
+          <b>최소 추천</b>을 알려줍니다. (참고용 정보이며 피부 진단/치료가
+          아닙니다.)
+        </p>
+        <div class="header-actions">
+          <a
+            class="link-btn"
+            href="https://funnyfunny.cloud/"
+            target="_blank"
+            rel="noreferrer"
+            >다른 서비스 보기</a
+          >
+        </div>
+      </header>
+
+      <div class="grid">
+        <!-- INPUT -->
+        <section class="card">
+          <h2>1) 지금 쓰는 제품 종류</h2>
+          <div class="row" id="products">
+            <label class="chip"
+              ><input type="checkbox" value="toner" />토너</label
+            >
+            <label class="chip"
+              ><input type="checkbox" value="serum" />에센스/세럼</label
+            >
+            <label class="chip"
+              ><input type="checkbox" value="lotion" />로션</label
+            >
+            <label class="chip"
+              ><input type="checkbox" value="cream" />크림</label
+            >
+            <label class="chip"
+              ><input type="checkbox" value="sunscreen" />선크림</label
+            >
+            <label class="chip"
+              ><input type="checkbox" value="cushion" />쿠션/파운데이션</label
+            >
+            <label class="chip"
+              ><input type="checkbox" value="allinone" />올인원</label
+            >
+            <label class="chip"
+              ><input type="checkbox" value="exfoliant" />각질/트러블
+              케어(AHA/BHA 등)</label
+            >
+          </div>
+
+          <h2 style="margin-top: 14px">2) 내 제품 특징(체감 기준)</h2>
+          <div class="row" id="traits">
+            <label class="chip"
+              ><input type="checkbox" value="hydrating" />보습 위주</label
+            >
+            <label class="chip"
+              ><input type="checkbox" value="light" />유분 적음/가벼움</label
+            >
+            <label class="chip"
+              ><input type="checkbox" value="soothing" />진정/쿨링 느낌</label
+            >
+            <label class="chip"
+              ><input type="checkbox" value="toneup" />톤 보정/메이크업
+              대체</label
+            >
+            <label class="chip"
+              ><input type="checkbox" value="spf" />자외선 차단 포함</label
+            >
+          </div>
+
+          <h2 style="margin-top: 14px">3) 피부 타입</h2>
+          <select id="skin">
+            <option value="unknown">잘 모르겠음</option>
+            <option value="dry">건성</option>
+            <option value="oily">지성</option>
+            <option value="combo">복합성</option>
+            <option value="sensitive">민감성</option>
+          </select>
+
+          <h2 style="margin-top: 14px">4) 목표</h2>
+          <select id="goal">
+            <option value="simplify">최대한 단순화(귀찮음 최소)</option>
+            <option value="balance">기능 밸런스(최소 구성)</option>
+            <option value="makeup">톤보정/메이크업 겸용 선호</option>
+          </select>
+
+          <div class="btns">
+            <button class="primary" id="analyze">분석하기</button>
+            <button class="ghost" id="reset">초기화</button>
+          </div>
+
+          <p class="muted" style="margin-top: 10px">
+            팁: <span class="inline code">선크림</span>은 대부분의 루틴에서
+            핵심으로 취급됩니다. 민감성은 각질 케어 중복 시 자극 위험이 커질 수
+            있어 보수적으로 안내합니다.
+          </p>
+        </section>
+
+        <!-- RESULT -->
+        <section class="card result" aria-live="polite">
+          <h2>결과</h2>
+
+          <div class="kpi">
+            <div class="box">
+              <p class="t">추천 루틴 형태</p>
+              <p class="v" id="routineType">-</p>
+            </div>
+            <div class="box">
+              <p class="t">핵심 누락</p>
+              <p class="v" id="missingCount">-</p>
+            </div>
+            <div class="box">
+              <p class="t">과잉/중복 경고</p>
+              <p class="v" id="excessCount">-</p>
+            </div>
+          </div>
+
+          <h3><span class="pill ok">충분</span>현재 잘 커버되는 것</h3>
+          <ul id="okList">
+            <li>-</li>
+          </ul>
+
+          <h3><span class="pill bad">부족</span>추가하면 좋은 것(최소)</h3>
+          <ul id="missingList">
+            <li>-</li>
+          </ul>
+
+          <h3><span class="pill warn">주의</span>중복/자극 가능성</h3>
+          <ul id="warnList">
+            <li>-</li>
+          </ul>
+
+          <h3>추천(기능 기반)</h3>
+          <ul id="recList">
+            <li>-</li>
+          </ul>
+
+          <footer>
+            이 결과는 사용자가 선택한 정보에 기반한 일반적 가이드입니다. 개인별
+            알레르기/질환/약물 사용 등은 반영할 수 없습니다.
+          </footer>
+        </section>
+      </div>
+    </div>
+
+    <script>
+      // --- Simple rule engine (MVP) ---
+      const $ = (sel) => document.querySelector(sel);
+      const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+
+      function getCheckedValues(containerId) {
+        return $$(`#${containerId} input[type="checkbox"]:checked`).map(
+          (x) => x.value
+        );
+      }
+
+      function uniq(arr) {
+        return Array.from(new Set(arr));
+      }
+
+      function renderList(el, items) {
+        el.innerHTML = "";
+        if (!items.length) {
+          const li = document.createElement("li");
+          li.textContent = "-";
+          el.appendChild(li);
+          return;
+        }
+        items.forEach((t) => {
+          const li = document.createElement("li");
+          li.textContent = t;
+          el.appendChild(li);
+        });
+      }
+
+      function analyze() {
+        const products = getCheckedValues("products");
+        const traits = getCheckedValues("traits");
+        const skin = $("#skin").value;
+        const goal = $("#goal").value;
+
+        // Signals (what the user likely has)
+        const has = {
+          cleanse: false, // not asked in MVP
+          hydrate:
+            traits.includes("hydrating") ||
+            products.some((p) =>
+              ["toner", "serum", "lotion", "cream", "allinone"].includes(p)
+            ),
+          occlusive: products.includes("cream") || products.includes("lotion"),
+          soothe:
+            traits.includes("soothing") ||
+            products.includes("toner") ||
+            products.includes("serum"),
+          spf:
+            traits.includes("spf") ||
+            products.includes("sunscreen") ||
+            (products.includes("cushion") &&
+              traits.includes("toneup") &&
+              traits.includes("spf")),
+          tone: traits.includes("toneup") || products.includes("cushion"),
+          exfoliate: products.includes("exfoliant"),
+          allinone: products.includes("allinone"),
+        };
+
+        // Coverage buckets
+        const ok = [];
+        const missing = [];
+        const warn = [];
+        const rec = [];
+
+        // 1) SPF is the main "missing" for daytime routines
+        if (has.spf) ok.push("자외선 차단(선케어)");
+        else
+          missing.push(
+            "자외선 차단: 선크림(또는 SPF 포함 제품) 1개는 거의 필수에 가깝습니다."
+          );
+
+        // 2) Hydration / Moisture
+        if (has.hydrate) ok.push("기본 보습(수분 공급)");
+        else
+          missing.push("기본 보습: 가벼운 보습제(로션/올인원/수분크림 중 1개)");
+
+        // 3) Barrier / Occlusive
+        if (skin === "dry") {
+          if (has.occlusive) ok.push("유분/막 형성(건성 보완)");
+          else
+            missing.push("건성 보완: 크림 또는 오클루시브(막 형성) 역할 1개");
+        }
+        if (skin === "oily") {
+          // Warn if too heavy
+          if (
+            products.includes("cream") &&
+            traits.includes("hydrating") &&
+            !traits.includes("light")
+          ) {
+            warn.push(
+              "지성인데 크림/보습 위주 조합이 무겁게 느껴질 수 있습니다(번들/밀림 가능)."
+            );
+          }
+        }
+
+        // 4) Exfoliant caution
+        if (has.exfoliate) {
+          ok.push("각질/트러블 케어");
+          if (skin === "sensitive")
+            warn.push(
+              "민감성 + 각질/트러블 케어는 자극 가능성이 높아 빈도/농도 조절이 필요합니다."
+            );
+        }
+
+        // 5) Duplication / overuse heuristics
+        const baseCount = [
+          "toner",
+          "serum",
+          "lotion",
+          "cream",
+          "allinone",
+        ].filter((p) => products.includes(p)).length;
+        if (baseCount >= 4 && goal === "simplify")
+          warn.push(
+            "기초 단계가 많습니다. 단순화 목표라면 1~2단계로 줄여도 체감 차이가 적을 수 있습니다."
+          );
+        if (products.includes("allinone") && baseCount >= 3)
+          warn.push(
+            "올인원이 있는데 기초가 여러 개 겹칩니다. 올인원 중심으로 정리 가능해 보입니다."
+          );
+        if (
+          products.includes("sunscreen") &&
+          products.includes("cushion") &&
+          traits.includes("spf")
+        )
+          warn.push(
+            "SPF 제품이 2개 이상 겹칩니다. 사용감/밀림이 생기면 하나만 남겨도 됩니다."
+          );
+
+        // 6) Output routine type suggestion
+        let routineType = "기본";
+        if (goal === "simplify") routineType = "2-스텝(보습 + 선케어)";
+        if (goal === "balance")
+          routineType = "2~3-스텝(보습 + 선케어 + 선택 케어)";
+        if (goal === "makeup") routineType = "2-스텝(선케어 + 톤보정 겸용)";
+
+        // 7) Recommendations (feature-based, not product-specific)
+        // Keep it "minimum add" oriented.
+        if (!has.spf) {
+          if (goal === "makeup")
+            rec.push(
+              "SPF 포함 톤업/쿠션 제품 1개로 선케어+톤보정을 합치는 방향을 고려해 보세요."
+            );
+          else rec.push("선크림 1개 추가(가벼운 제형 우선).");
+        } else {
+          rec.push(
+            "선케어는 유지: 자극 없고 매일 바르기 쉬운 사용감이면 충분합니다."
+          );
+        }
+
+        if (!has.hydrate)
+          rec.push("보습은 1개만 추가: 올인원 또는 로션/크림 중 하나만 선택.");
+        if (goal === "simplify" && baseCount >= 3)
+          rec.push(
+            "기초는 (토너/세럼/로션/크림) 중 1개만 남기고 나머지는 중단해보며 체감 확인."
+          );
+
+        if (has.exfoliate) {
+          rec.push(
+            "각질/트러블 케어는 격일/주 2~3회처럼 낮은 빈도에서 시작하는 편이 안전합니다(특히 민감성)."
+          );
+        } else {
+          if (skin !== "sensitive")
+            rec.push(
+              "피부결이 고민이면 ‘각질 케어’는 선택 옵션입니다(필수는 아님)."
+            );
+        }
+
+        // 8) Normalize / de-dup
+        renderList($("#okList"), uniq(ok));
+        renderList($("#missingList"), uniq(missing));
+        renderList($("#warnList"), uniq(warn));
+        renderList($("#recList"), uniq(rec));
+
+        $("#routineType").textContent = routineType;
+        $("#missingCount").textContent = String(uniq(missing).length);
+        $("#excessCount").textContent = String(uniq(warn).length);
+      }
+
+      function resetAll() {
+        $$('input[type="checkbox"]').forEach((x) => (x.checked = false));
+        $("#skin").value = "unknown";
+        $("#goal").value = "simplify";
+        // Clear outputs
+        $("#routineType").textContent = "-";
+        $("#missingCount").textContent = "-";
+        $("#excessCount").textContent = "-";
+        renderList($("#okList"), []);
+        renderList($("#missingList"), []);
+        renderList($("#warnList"), []);
+        renderList($("#recList"), []);
+      }
+
+      $("#analyze").addEventListener("click", analyze);
+      $("#reset").addEventListener("click", resetAll);
+
+      // Initial defaults
+      resetAll();
+    </script>
+  </body>
+</html>
