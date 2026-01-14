@@ -965,24 +965,8 @@
             }
           });
         }
-        // Update product/trait labels
-        document.querySelectorAll("#products label, #traits label").forEach((label) => {
-          const input = label.querySelector("input");
-          if (input && input.value) {
-            const key = `product${input.value.charAt(0).toUpperCase() + input.value.slice(1)}` || `trait${input.value.charAt(0).toUpperCase() + input.value.slice(1)}`;
-            const text = t(key);
-            if (text && text !== key) {
-              const textNode = Array.from(label.childNodes).find(n => n.nodeType === 3 && n.textContent.trim());
-              if (textNode) {
-                textNode.textContent = text;
-              } else {
-                const span = document.createElement("span");
-                span.textContent = text;
-                label.insertBefore(span, input);
-              }
-            }
-          }
-        });
+        // Product/trait labels are already handled by [data-i18n] above
+        // No need for additional processing
       }
 
       function setLang(lang, options = {}) {
