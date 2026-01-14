@@ -13,14 +13,29 @@
     />
     <title>화장품 루틴 딸깍 체크</title>
     <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", sans-serif;
+        margin: 0;
+        background: linear-gradient(to bottom right, #fef3f2, #f3e8ff, #e0f2fe);
+        min-height: 100vh;
+        color: #111;
+      }
       .lang-switch {
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        z-index: 50;
         display: inline-flex;
         gap: 6px;
         padding: 4px;
         border-radius: 999px;
-        background: rgba(0, 0, 0, 0.05);
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(8px);
         border: 1px solid rgba(0, 0, 0, 0.1);
-        margin-bottom: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       }
       .lang-switch button {
         border: none;
@@ -32,544 +47,658 @@
         border-radius: 999px;
         cursor: pointer;
         letter-spacing: 0.08em;
+        transition: all 0.2s;
       }
       .lang-switch button.active {
         background: #2f5cff;
         color: #fff;
       }
-      :root {
-        color-scheme: light;
+      .lang-switch button:not(.active):hover {
+        color: #2f5cff;
       }
-      body {
-        font-family: system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR",
-          sans-serif;
-        margin: 0;
-        background: #f6f7fb;
-        color: #111;
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 80px 20px 40px;
       }
-      .wrap {
-        max-width: 920px;
-        margin: 16px auto;
-        padding: 24px;
+      /* Start Screen */
+      .start-screen {
+        text-align: center;
+        animation: fadeIn 0.5s ease-in;
       }
-      header {
-        background: #fff;
-        border: 1px solid #e7e7ee;
-        border-radius: 14px;
-        padding: 18px 18px 14px;
+      .start-screen h1 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin: 0 0 16px;
+        color: #1a1a2e;
       }
-      h1 {
-        font-size: 20px;
-        margin: 0 0 6px;
+      .start-screen .subtitle {
+        font-size: 1.1rem;
+        color: #555;
+        line-height: 1.6;
+        margin-bottom: 32px;
       }
-      p.sub {
-        margin: 0;
-        color: #444;
-        font-size: 14px;
-        line-height: 1.5;
-      }
-      .header-actions {
-        margin-top: 12px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-      }
-      .link-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        border: 1px solid #dfe3ff;
+      .start-btn {
+        background: linear-gradient(to right, #ec4899, #8b5cf6, #3b82f6);
+        color: white;
+        border: none;
         border-radius: 999px;
-        padding: 8px 14px;
-        background: #eef2ff;
-        color: #1d2a6a;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 13px;
+        padding: 16px 48px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s;
       }
-      .link-btn:hover {
-        background: #e1e7ff;
+      .start-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
       }
-      .grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 14px;
-        margin-top: 14px;
-      }
-      @media (min-width: 860px) {
-        .grid {
-          grid-template-columns: 1.05fr 0.95fr;
-        }
-      }
-      .card {
-        background: #fff;
-        border: 1px solid #e7e7ee;
-        border-radius: 14px;
-        padding: 16px;
-      }
-      .card h2 {
-        font-size: 16px;
-        margin: 0 0 10px;
-      }
-      .step {
+      /* Question Screen */
+      .question-screen {
         display: none;
       }
-      .step.active {
+      .question-screen.active {
         display: block;
+        animation: fadeIn 0.5s ease-in;
       }
-      .step-meta {
+      .progress-bar {
+        margin-bottom: 24px;
+      }
+      .progress-info {
         display: flex;
-        align-items: center;
         justify-content: space-between;
         margin-bottom: 8px;
-        font-size: 12px;
-        color: #667085;
-      }
-      .step-indicator {
-        font-weight: 700;
-        color: #1d2a6a;
-      }
-      .step-nav {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-top: 14px;
-      }
-      .step-nav .ghost {
-        background: #eef2ff;
-        color: #1d2a6a;
-      }
-      .row {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-      }
-      .chip {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        border: 1px solid #e7e7ee;
-        border-radius: 999px;
-        padding: 8px 10px;
-        background: #fafbff;
-        cursor: pointer;
-        user-select: none;
-      }
-      .chip input {
-        width: 16px;
-        height: 16px;
-      }
-      label {
         font-size: 14px;
+        font-weight: 600;
+        color: #555;
       }
-      select {
+      .progress-bar-fill {
         width: 100%;
-        padding: 10px 12px;
-        border-radius: 12px;
-        border: 1px solid #e7e7ee;
-        background: #fff;
-        font-size: 14px;
+        height: 8px;
+        background: #e5e7eb;
+        border-radius: 999px;
+        overflow: hidden;
       }
-      .btns {
+      .progress-bar-fill div {
+        height: 100%;
+        background: linear-gradient(to right, #ec4899, #8b5cf6, #3b82f6);
+        border-radius: 999px;
+        transition: width 0.5s ease-out;
+      }
+      .question-card {
+        background: white;
+        border-radius: 24px;
+        padding: 32px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        margin-bottom: 24px;
+      }
+      .question-card h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0 0 24px;
+        text-align: center;
+        color: #1a1a2e;
+      }
+      .choices {
         display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-        margin-top: 12px;
+        flex-direction: column;
+        gap: 12px;
       }
-      button {
-        border: 0;
-        border-radius: 12px;
-        padding: 10px 12px;
+      .choice-btn {
+        width: 100%;
+        padding: 16px 20px;
+        border: 2px solid #e5e7eb;
+        border-radius: 16px;
+        background: white;
+        color: #333;
+        font-size: 1rem;
         font-weight: 600;
         cursor: pointer;
+        text-align: left;
+        transition: all 0.2s;
       }
-      button.primary {
-        background: #2f5cff;
-        color: #fff;
+      .choice-btn:hover {
+        border-color: #8b5cf6;
+        background: #f3e8ff;
+        transform: translateX(4px);
       }
-      button.ghost {
-        background: #eef2ff;
-        color: #1d2a6a;
+      .choice-btn.selected {
+        background: linear-gradient(to right, #ec4899, #8b5cf6);
+        color: white;
+        border-color: transparent;
+        transform: scale(1.02);
+        box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
       }
-      .muted {
+      .choice-btn.multi-selected {
+        background: linear-gradient(to right, #ec4899, #8b5cf6);
+        color: white;
+        border-color: transparent;
+      }
+      .nav-buttons {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+      }
+      .nav-btn {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 999px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .nav-btn.prev {
+        background: #f3f4f6;
         color: #555;
-        font-size: 12.5px;
-        line-height: 1.5;
+      }
+      .nav-btn.prev:hover {
+        background: #e5e7eb;
+      }
+      .nav-btn.next {
+        background: linear-gradient(to right, #ec4899, #8b5cf6);
+        color: white;
+      }
+      .nav-btn.next:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+      }
+      .nav-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      /* Result Screen */
+      .result-screen {
+        display: none;
+      }
+      .result-screen.active {
+        display: block;
+        animation: fadeIn 0.5s ease-in;
+      }
+      .result-card {
+        background: white;
+        border-radius: 24px;
+        padding: 32px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        margin-bottom: 24px;
+      }
+      .result-card h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0 0 24px;
+        text-align: center;
+        color: #1a1a2e;
+      }
+      .verdict {
+        background: linear-gradient(to right, #fef3f2, #f3e8ff);
+        border: 2px solid #e5e7eb;
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 24px;
+      }
+      .verdict strong {
+        display: block;
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+        color: #1a1a2e;
+      }
+      .kpi {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+      .kpi-box {
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 16px;
+        text-align: center;
+      }
+      .kpi-label {
+        font-size: 12px;
+        color: #666;
+        margin-bottom: 8px;
+      }
+      .kpi-value {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #1a1a2e;
+      }
+      .result-section {
+        margin-bottom: 24px;
+      }
+      .result-section h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin: 0 0 12px;
+        color: #1a1a2e;
+      }
+      .result-section ul {
+        margin: 0;
+        padding-left: 20px;
+      }
+      .result-section li {
+        margin: 8px 0;
+        line-height: 1.6;
       }
       .pill {
         display: inline-block;
-        padding: 6px 10px;
+        padding: 4px 12px;
         border-radius: 999px;
         font-size: 12px;
         font-weight: 700;
         margin-right: 8px;
       }
-      .ok {
+      .pill.ok {
         background: #e8fff1;
         color: #0a6b2f;
         border: 1px solid #b6f2cc;
       }
-      .warn {
+      .pill.warn {
         background: #fff7e8;
         color: #7a4b00;
         border: 1px solid #ffe0a6;
       }
-      .bad {
+      .pill.bad {
         background: #ffecec;
         color: #7a0010;
         border: 1px solid #ffc2c9;
       }
-      ul {
-        margin: 8px 0 0;
-        padding-left: 18px;
-      }
-      li {
-        margin: 5px 0;
-        line-height: 1.45;
-      }
-      .result h3 {
-        margin: 14px 0 6px;
-        font-size: 14px;
-      }
-      .verdict {
-        background: #f3f6ff;
-        border: 1px solid #dfe6ff;
-        border-radius: 14px;
-        padding: 12px 14px;
-        margin-top: 8px;
-      }
-      .verdict strong {
-        display: block;
-        font-size: 15px;
-        margin-bottom: 6px;
-        color: #132257;
-      }
-      .share-line {
-        margin-top: 8px;
-        font-size: 12.5px;
-        color: #3d4a7a;
-        background: #eef2ff;
-        border: 1px dashed #c7d2ff;
-        padding: 8px 10px;
-        border-radius: 12px;
-      }
-      .kpi {
+      .action-buttons {
         display: flex;
-        gap: 10px;
+        gap: 12px;
+        justify-content: center;
         flex-wrap: wrap;
-        margin-top: 8px;
       }
-      .kpi .box {
-        border: 1px solid #e7e7ee;
-        border-radius: 12px;
-        padding: 10px 12px;
-        min-width: 160px;
+      .action-btn {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 999px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
       }
-      .kpi .t {
-        font-size: 12px;
+      .action-btn.primary {
+        background: linear-gradient(to right, #3b82f6, #8b5cf6);
+        color: white;
+      }
+      .action-btn.secondary {
+        background: #f3f4f6;
         color: #555;
-        margin: 0 0 4px;
       }
-      .kpi .v {
-        font-size: 16px;
-        font-weight: 800;
-        margin: 0;
+      .action-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       }
       footer {
-        margin-top: 14px;
+        text-align: center;
         color: #666;
         font-size: 12px;
+        margin-top: 24px;
       }
-      code.inline {
-        background: #f1f3ff;
-        border: 1px solid #e4e7ff;
-        padding: 1px 6px;
-        border-radius: 8px;
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
-    </style>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1204894220949193"
-     crossorigin="anonymous"></script>
-    <!-- responsive-base -->
-    <style>
-      /* responsive-base */
-      *, *::before, *::after {
-        box-sizing: border-box;
-      }
-      html {
-        -webkit-text-size-adjust: 100%;
-      }
-      img,
-      video,
-      canvas,
-      svg {
-        max-width: 100%;
-        height: auto;
-      }
-      table {
-        width: 100%;
-      }
-      pre,
-      code {
-        white-space: pre-wrap;
-        word-break: break-word;
+      @media (max-width: 640px) {
+        .container {
+          padding: 60px 16px 24px;
+        }
+        .start-screen h1 {
+          font-size: 2rem;
+        }
+        .question-card,
+        .result-card {
+          padding: 24px;
+        }
       }
     </style>
-  <style>
-    .adsense-block {
-      margin: 16px 0;
-      display: flex;
-      justify-content: center;
-    }
-    .adsbygoogle {
-      display: block;
-      margin: 16px auto;
-        text-align: center;
-}
-  </style>
-</head>
-  <body><div class="wrap">
-      <div class="lang-switch" role="tablist" aria-label="Language switcher">
-        <button type="button" data-lang="ko" class="active">한국어</button>
-        <button type="button" data-lang="en">English</button>
-      </div>
-      <header>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1204894220949193"
+       crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div class="lang-switch" role="tablist" aria-label="Language switcher">
+      <button type="button" data-lang="ko" class="active">한국어</button>
+      <button type="button" data-lang="en">English</button>
+    </div>
+
+    <div class="container">
+      <!-- Start Screen -->
+      <div class="start-screen" id="startScreen">
         <h1 data-i18n="title">화장품 루틴 딸깍 체크</h1>
-        <p class="sub" data-i18n-html="subtitle">
+        <p class="subtitle" data-i18n-html="subtitle">
           지금 쓰는 제품/특징만 체크하면, 루틴에서 <b>부족·과잉</b>을 표시하고
-          <b>최소 추천</b>을 알려줍니다. (참고용 정보이며 피부 진단/치료가
-          아닙니다.)
+          <b>최소 추천</b>을 알려줍니다. (참고용 정보이며 피부 진단/치료가 아닙니다.)
         </p>
-        <div class="header-actions">
-          <a
-            class="link-btn"
-            href="https://funnyfunny.cloud/"
-            target="_blank"
-            rel="noreferrer"
-            data-i18n="otherServices">다른 서비스 보기</a
-          >
+        <button class="start-btn" id="startBtn" data-i18n="startBtn">시작하기 🚀</button>
+      </div>
+
+      <!-- Question Screen -->
+      <div class="question-screen" id="questionScreen">
+        <div class="progress-bar">
+          <div class="progress-info">
+            <span id="progressText">질문 1 / 4</span>
+            <span id="progressPercent">0%</span>
+          </div>
+          <div class="progress-bar-fill">
+            <div id="progressFill" style="width: 0%"></div>
+          </div>
         </div>
-      </header>
 
-      <div class="grid">
-        <!-- INPUT -->
-        <section class="card">
-          <div class="step-meta">
-            <span data-i18n="stepHint">단계별로 눌러주세요</span>
-            <span class="step-indicator" id="stepLabel">1 / 4</span>
-          </div>
+        <div class="question-card">
+          <h2 id="questionTitle">질문</h2>
+          <div class="choices" id="choices"></div>
+        </div>
 
-          <div class="step active" data-step="1">
-            <h2 data-i18n="step1Title">1) 지금 쓰는 제품 종류</h2>
-            <div class="row" id="products">
-              <label class="chip"
-                ><input type="checkbox" value="toner" /><span data-i18n="productToner">토너</span></label
-              >
-              <label class="chip"
-                ><input type="checkbox" value="serum" /><span data-i18n="productSerum">에센스/세럼</span></label
-              >
-              <label class="chip"
-                ><input type="checkbox" value="lotion" /><span data-i18n="productLotion">로션</span></label
-              >
-              <label class="chip"
-                ><input type="checkbox" value="cream" /><span data-i18n="productCream">크림</span></label
-              >
-              <label class="chip"
-                ><input type="checkbox" value="sunscreen" /><span data-i18n="productSunscreen">선크림</span></label
-              >
-              <label class="chip"
-                ><input type="checkbox" value="cushion" /><span data-i18n="productCushion">쿠션/파운데이션</span></label
-              >
-              <label class="chip"
-                ><input type="checkbox" value="allinone" /><span data-i18n="productAllinone">올인원</span></label
-              >
-              <label class="chip"
-                ><input type="checkbox" value="exfoliant" /><span data-i18n="productExfoliant">각질/트러블 케어(AHA/BHA 등)</span></label
-              >
-            </div>
-          </div>
+        <div class="nav-buttons">
+          <button class="nav-btn prev" id="prevBtn" data-i18n="btnPrev">← 이전</button>
+          <button class="nav-btn next" id="nextBtn" data-i18n="btnNext">다음 →</button>
+        </div>
+      </div>
 
-          <div class="step" data-step="2">
-            <h2 data-i18n="step2Title">2) 내 제품 특징(체감 기준)</h2>
-            <div class="row" id="traits">
-              <label class="chip"
-                ><input type="checkbox" value="hydrating" /><span data-i18n="traitHydrating">보습 위주</span></label
-              >
-              <label class="chip"
-                ><input type="checkbox" value="light" /><span data-i18n="traitLight">유분 적음/가벼움</span></label
-              >
-              <label class="chip"
-                ><input type="checkbox" value="soothing" /><span data-i18n="traitSoothing">진정/쿨링 느낌</span></label
-              >
-              <label class="chip"
-                ><input type="checkbox" value="toneup" /><span data-i18n="traitToneup">톤 보정/메이크업 대체</span></label
-              >
-              <label class="chip"
-                ><input type="checkbox" value="spf" /><span data-i18n="traitSpf">자외선 차단 포함</span></label
-              >
-            </div>
-          </div>
-
-          <div class="step" data-step="3">
-            <h2 data-i18n="step3Title">3) 피부 타입</h2>
-            <select id="skin">
-              <option value="unknown" data-i18n="skinUnknown">잘 모르겠음</option>
-              <option value="dry" data-i18n="skinDry">건성</option>
-              <option value="oily" data-i18n="skinOily">지성</option>
-              <option value="combo" data-i18n="skinCombo">복합성</option>
-              <option value="sensitive" data-i18n="skinSensitive">민감성</option>
-            </select>
-          </div>
-
-          <div class="step" data-step="4">
-            <h2 data-i18n="step4Title">4) 목표</h2>
-            <select id="goal">
-              <option value="simplify" data-i18n="goalSimplify">최대한 단순화(귀찮음 최소)</option>
-              <option value="balance" data-i18n="goalBalance">기능 밸런스(최소 구성)</option>
-              <option value="makeup" data-i18n="goalMakeup">톤보정/메이크업 겸용 선호</option>
-            </select>
-
-            <div class="btns">
-              <button class="primary" id="analyze" data-i18n="btnAnalyze">분석하기</button>
-              <button class="ghost" id="reset" data-i18n="btnReset">초기화</button>
-            </div>
-          </div>
-
-          <div class="step-nav">
-            <button class="ghost" id="prevStep" data-i18n="btnPrev">이전</button>
-            <button class="ghost" id="nextStep" data-i18n="btnNext">다음</button>
-          </div>
-
-          <p class="muted" style="margin-top: 10px" data-i18n-html="tip">
-            팁: <span class="inline code">선크림</span>은 대부분의 루틴에서
-            핵심으로 취급됩니다. 민감성은 각질 케어 중복 시 자극 위험이 커질 수
-            있어 보수적으로 안내합니다.
-          </p>
-        </section>
-
-        <!-- RESULT -->
-        <section class="card result" aria-live="polite">
+      <!-- Result Screen -->
+      <div class="result-screen" id="resultScreen">
+        <div class="result-card">
           <h2 data-i18n="resultTitle">결과</h2>
 
           <div class="verdict" id="verdictBox">
             <strong id="verdictTitle">-</strong>
             <span id="verdictDetail">-</span>
-            <div class="share-line" id="shareLine">-</div>
           </div>
 
-          <div class="kpi">
-            <div class="box">
-              <p class="t" data-i18n="kpiCurrent">현재 단계 수</p>
-              <p class="v" id="currentSteps">-</p>
-            </div>
-            <div class="box">
-              <p class="t" data-i18n="kpiMin">추천 최소 단계</p>
-              <p class="v" id="minSteps">-</p>
-            </div>
-            <div class="box">
-              <p class="t" data-i18n="kpiReduce">줄일 수 있는 단계</p>
-              <p class="v" id="reduceSteps">-</p>
-            </div>
+          <div class="kpi" id="kpi"></div>
+
+          <div class="result-section">
+            <h3><span class="pill ok" data-i18n="labelOk">충분</span><span data-i18n="labelOkDesc">현재 잘 커버되는 것</span></h3>
+            <ul id="okList"></ul>
           </div>
 
-          <h3><span class="pill ok" data-i18n="labelOk">충분</span><span data-i18n="labelOkDesc">현재 잘 커버되는 것</span></h3>
-          <ul id="okList">
-            <li>-</li>
-          </ul>
+          <div class="result-section">
+            <h3><span class="pill bad" data-i18n="labelMissing">부족</span><span data-i18n="labelMissingDesc">추가하면 좋은 것(최소)</span></h3>
+            <ul id="missingList"></ul>
+          </div>
 
-          <h3><span class="pill bad" data-i18n="labelMissing">부족</span><span data-i18n="labelMissingDesc">추가하면 좋은 것(최소)</span></h3>
-          <ul id="missingList">
-            <li>-</li>
-          </ul>
+          <div class="result-section">
+            <h3><span class="pill warn" data-i18n="labelSkip">삭제</span><span data-i18n="labelSkipDesc">지금 안 해도 되는 것</span></h3>
+            <ul id="skipList"></ul>
+          </div>
 
-          <h3><span class="pill warn" data-i18n="labelSkip">삭제</span><span data-i18n="labelSkipDesc">지금 안 해도 되는 것</span></h3>
-          <ul id="skipList">
-            <li>-</li>
-          </ul>
+          <div class="result-section">
+            <h3><span class="pill warn" data-i18n="labelWarn">주의</span><span data-i18n="labelWarnDesc">중복/자극 가능성</span></h3>
+            <ul id="warnList"></ul>
+          </div>
 
-          <h3><span class="pill warn" data-i18n="labelWarn">주의</span><span data-i18n="labelWarnDesc">중복/자극 가능성</span></h3>
-          <ul id="warnList">
-            <li>-</li>
-          </ul>
+          <div class="result-section">
+            <h3 data-i18n="labelSwap">대체/정리 추천</h3>
+            <ul id="swapList"></ul>
+          </div>
 
-          <h3 data-i18n="labelSwap">대체/정리 추천</h3>
-          <ul id="swapList">
-            <li>-</li>
-          </ul>
+          <div class="result-section">
+            <h3 data-i18n="labelMinRoutine">추천 최소 루틴(예시)</h3>
+            <ul id="minRoutineList"></ul>
+          </div>
 
-          <h3 data-i18n="labelMinRoutine">추천 최소 루틴(예시)</h3>
-          <ul id="minRoutineList">
-            <li>-</li>
-          </ul>
+          <div class="action-buttons">
+            <button class="action-btn primary" id="shareBtn" data-i18n="btnShare">결과 공유하기</button>
+            <button class="action-btn secondary" id="resetBtn" data-i18n="btnReset">다시 하기</button>
+          </div>
 
           <footer data-i18n="footer">
-            이 결과는 사용자가 선택한 정보에 기반한 일반적 가이드입니다. 개인별
-            알레르기/질환/약물 사용 등은 반영할 수 없습니다.
+            이 결과는 사용자가 선택한 정보에 기반한 일반적 가이드입니다. 개인별 알레르기/질환/약물 사용 등은 반영할 수 없습니다.
           </footer>
-        </section>
+        </div>
       </div>
     </div>
 
     <script>
-      // --- Simple rule engine (MVP) ---
+      // Questions structure
+      const QUESTIONS = [
+        {
+          id: "products",
+          title: "지금 쓰는 제품 종류",
+          titleEn: "Product types you use",
+          multiSelect: true,
+          choices: [
+            { value: "toner", label: "토너", labelEn: "Toner" },
+            { value: "serum", label: "에센스/세럼", labelEn: "Essence/Serum" },
+            { value: "lotion", label: "로션", labelEn: "Lotion" },
+            { value: "cream", label: "크림", labelEn: "Cream" },
+            { value: "sunscreen", label: "선크림", labelEn: "Sunscreen" },
+            { value: "cushion", label: "쿠션/파운데이션", labelEn: "Cushion/Foundation" },
+            { value: "allinone", label: "올인원", labelEn: "All-in-one" },
+            { value: "exfoliant", label: "각질/트러블 케어(AHA/BHA 등)", labelEn: "Exfoliant/Trouble care (AHA/BHA etc.)" },
+          ],
+        },
+        {
+          id: "traits",
+          title: "내 제품 특징(체감 기준)",
+          titleEn: "Product features (by feel)",
+          multiSelect: true,
+          choices: [
+            { value: "hydrating", label: "보습 위주", labelEn: "Hydrating focus" },
+            { value: "light", label: "유분 적음/가벼움", labelEn: "Low oil/lightweight" },
+            { value: "soothing", label: "진정/쿨링 느낌", labelEn: "Soothing/cooling feel" },
+            { value: "toneup", label: "톤 보정/메이크업 대체", labelEn: "Tone correction/makeup replacement" },
+            { value: "spf", label: "자외선 차단 포함", labelEn: "SPF included" },
+          ],
+        },
+        {
+          id: "skin",
+          title: "피부 타입",
+          titleEn: "Skin type",
+          multiSelect: false,
+          choices: [
+            { value: "unknown", label: "잘 모르겠음", labelEn: "Not sure" },
+            { value: "dry", label: "건성", labelEn: "Dry" },
+            { value: "oily", label: "지성", labelEn: "Oily" },
+            { value: "combo", label: "복합성", labelEn: "Combination" },
+            { value: "sensitive", label: "민감성", labelEn: "Sensitive" },
+          ],
+        },
+        {
+          id: "goal",
+          title: "목표",
+          titleEn: "Goal",
+          multiSelect: false,
+          choices: [
+            { value: "simplify", label: "최대한 단순화(귀찮음 최소)", labelEn: "Maximize simplicity (minimize hassle)" },
+            { value: "balance", label: "기능 밸런스(최소 구성)", labelEn: "Functional balance (minimal setup)" },
+            { value: "makeup", label: "톤보정/메이크업 겸용 선호", labelEn: "Prefer tone-up/makeup combo" },
+          ],
+        },
+      ];
+
+      // State
+      let currentQuestion = 0;
+      let answers = {};
+      let currentLang = "ko";
+
+      // Elements
       const $ = (sel) => document.querySelector(sel);
       const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
-      function getCheckedValues(containerId) {
-        return $$(`#${containerId} input[type="checkbox"]:checked`).map(
-          (x) => x.value
-        );
+      const startScreen = $("#startScreen");
+      const questionScreen = $("#questionScreen");
+      const resultScreen = $("#resultScreen");
+      const startBtn = $("#startBtn");
+      const prevBtn = $("#prevBtn");
+      const nextBtn = $("#nextBtn");
+      const questionTitle = $("#questionTitle");
+      const choicesContainer = $("#choices");
+      const progressText = $("#progressText");
+      const progressPercent = $("#progressPercent");
+      const progressFill = $("#progressFill");
+
+      // Initialize
+      function init() {
+        currentLang = detectLang();
+        setLang(currentLang, false);
+        startBtn.addEventListener("click", startQuiz);
+        prevBtn.addEventListener("click", prevQuestion);
+        nextBtn.addEventListener("click", nextQuestion);
+        $("#resetBtn")?.addEventListener("click", resetQuiz);
+        $("#shareBtn")?.addEventListener("click", shareResult);
       }
 
-      function uniq(arr) {
-        return Array.from(new Set(arr));
+      function startQuiz() {
+        currentQuestion = 0;
+        answers = {};
+        showQuestion();
       }
 
-      function renderList(el, items) {
-        el.innerHTML = "";
-        if (!items.length) {
-          const li = document.createElement("li");
-          li.textContent = "-";
-          el.appendChild(li);
+      function showQuestion() {
+        startScreen.style.display = "none";
+        questionScreen.classList.add("active");
+        resultScreen.classList.remove("active");
+
+        const q = QUESTIONS[currentQuestion];
+        const title = currentLang === "en" ? q.titleEn : q.title;
+        questionTitle.textContent = title;
+
+        choicesContainer.innerHTML = "";
+        const currentAnswers = answers[q.id] || (q.multiSelect ? [] : null);
+
+        q.choices.forEach((choice) => {
+          const btn = document.createElement("button");
+          btn.className = "choice-btn";
+          const label = currentLang === "en" ? choice.labelEn : choice.label;
+          btn.textContent = label;
+
+          if (q.multiSelect) {
+            const isSelected = Array.isArray(currentAnswers) && currentAnswers.includes(choice.value);
+            if (isSelected) btn.classList.add("multi-selected");
+            btn.addEventListener("click", () => {
+              const selected = answers[q.id] || [];
+              const index = selected.indexOf(choice.value);
+              if (index > -1) {
+                selected.splice(index, 1);
+              } else {
+                selected.push(choice.value);
+              }
+              answers[q.id] = selected;
+              renderChoices();
+            });
+          } else {
+            if (currentAnswers === choice.value) btn.classList.add("selected");
+            btn.addEventListener("click", () => {
+              answers[q.id] = choice.value;
+              renderChoices();
+              setTimeout(() => {
+                if (currentQuestion < QUESTIONS.length - 1) {
+                  nextQuestion();
+                } else {
+                  showResult();
+                }
+              }, 300);
+            });
+          }
+
+          choicesContainer.appendChild(btn);
+        });
+
+        renderChoices();
+        updateProgress();
+        updateNavButtons();
+      }
+
+      function renderChoices() {
+        const q = QUESTIONS[currentQuestion];
+        const currentAnswers = answers[q.id] || (q.multiSelect ? [] : null);
+
+        $$(".choice-btn").forEach((btn, idx) => {
+          const choice = q.choices[idx];
+          btn.classList.remove("selected", "multi-selected");
+
+          if (q.multiSelect) {
+            const selected = Array.isArray(currentAnswers) && currentAnswers.includes(choice.value);
+            if (selected) btn.classList.add("multi-selected");
+          } else {
+            if (currentAnswers === choice.value) btn.classList.add("selected");
+          }
+        });
+
+        if (q.multiSelect) {
+          const selected = Array.isArray(currentAnswers) ? currentAnswers.length : 0;
+          nextBtn.disabled = selected === 0;
+        } else {
+          nextBtn.disabled = !currentAnswers;
+        }
+      }
+
+      function updateProgress() {
+        const total = QUESTIONS.length;
+        const current = currentQuestion + 1;
+        const percent = Math.round((current / total) * 100);
+        progressText.textContent = currentLang === "en" ? `Question ${current} / ${total}` : `질문 ${current} / ${total}`;
+        progressPercent.textContent = `${percent}%`;
+        progressFill.style.width = `${percent}%`;
+      }
+
+      function updateNavButtons() {
+        prevBtn.disabled = currentQuestion === 0;
+        if (currentQuestion === QUESTIONS.length - 1) {
+          nextBtn.textContent = currentLang === "en" ? "결과 보기 →" : "결과 보기 →";
+        } else {
+          nextBtn.textContent = currentLang === "en" ? "Next →" : "다음 →";
+        }
+      }
+
+      function prevQuestion() {
+        if (currentQuestion > 0) {
+          currentQuestion--;
+          showQuestion();
+        }
+      }
+
+      function nextQuestion() {
+        const q = QUESTIONS[currentQuestion];
+        const currentAnswers = answers[q.id];
+
+        if (q.multiSelect && (!Array.isArray(currentAnswers) || currentAnswers.length === 0)) {
           return;
         }
-        items.forEach((t) => {
-          const li = document.createElement("li");
-          li.textContent = t;
-          el.appendChild(li);
-        });
+        if (!q.multiSelect && !currentAnswers) {
+          return;
+        }
+
+        if (currentQuestion < QUESTIONS.length - 1) {
+          currentQuestion++;
+          showQuestion();
+        } else {
+          showResult();
+        }
+      }
+
+      function showResult() {
+        questionScreen.classList.remove("active");
+        resultScreen.classList.add("active");
+        analyze();
       }
 
       function analyze() {
-        const products = getCheckedValues("products");
-        const traits = getCheckedValues("traits");
-        const skin = $("#skin").value;
-        const goal = $("#goal").value;
+        const products = answers.products || [];
+        const traits = answers.traits || [];
+        const skin = answers.skin || "unknown";
+        const goal = answers.goal || "simplify";
 
-        // Signals (what the user likely has)
+        // Analysis logic (same as before)
         const has = {
-          cleanse: false, // not asked in MVP
-          hydrate:
-            traits.includes("hydrating") ||
-            products.some((p) =>
-              ["toner", "serum", "lotion", "cream", "allinone"].includes(p)
-            ),
+          cleanse: false,
+          hydrate: traits.includes("hydrating") || products.some((p) => ["toner", "serum", "lotion", "cream", "allinone"].includes(p)),
           occlusive: products.includes("cream") || products.includes("lotion"),
-          soothe:
-            traits.includes("soothing") ||
-            products.includes("toner") ||
-            products.includes("serum"),
-          spf:
-            traits.includes("spf") ||
-            products.includes("sunscreen") ||
-            (products.includes("cushion") &&
-              traits.includes("toneup") &&
-              traits.includes("spf")),
+          soothe: traits.includes("soothing") || products.includes("toner") || products.includes("serum"),
+          spf: traits.includes("spf") || products.includes("sunscreen") || (products.includes("cushion") && traits.includes("toneup") && traits.includes("spf")),
           tone: traits.includes("toneup") || products.includes("cushion"),
           exfoliate: products.includes("exfoliant"),
           allinone: products.includes("allinone"),
         };
 
-        // Coverage buckets
         const ok = [];
         const missing = [];
         const warn = [];
@@ -577,90 +706,52 @@
         const swap = [];
         const minRoutine = [];
 
-        // 1) SPF is the main "missing" for daytime routines
         if (has.spf) ok.push(t("msgSpfOk"));
-        else
-          missing.push(t("msgSpfMissing"));
+        else missing.push(t("msgSpfMissing"));
 
-        // 2) Hydration / Moisture
         if (has.hydrate) ok.push(t("msgHydrateOk"));
-        else
-          missing.push(t("msgHydrateMissing"));
+        else missing.push(t("msgHydrateMissing"));
 
-        // 3) Barrier / Occlusive
         if (skin === "dry") {
           if (has.occlusive) ok.push(t("msgOcclusiveOk"));
-          else
-            missing.push(t("msgOcclusiveMissing"));
+          else missing.push(t("msgOcclusiveMissing"));
         }
         if (skin === "oily") {
-          // Warn if too heavy
-          if (
-            products.includes("cream") &&
-            traits.includes("hydrating") &&
-            !traits.includes("light")
-          ) {
+          if (products.includes("cream") && traits.includes("hydrating") && !traits.includes("light")) {
             warn.push(t("msgOilyWarn"));
           }
         }
 
-        // 4) Exfoliant caution
         if (has.exfoliate) {
           ok.push(t("msgExfoliateOk"));
-          if (skin === "sensitive")
-            warn.push(t("msgSensitiveWarn"));
+          if (skin === "sensitive") warn.push(t("msgSensitiveWarn"));
         }
 
-        // 5) Duplication / overuse heuristics
-        const baseCount = [
-          "toner",
-          "serum",
-          "lotion",
-          "cream",
-          "allinone",
-        ].filter((p) => products.includes(p)).length;
-        if (baseCount >= 4 && goal === "simplify")
-          warn.push(t("msgBaseCountWarn"));
-        if (products.includes("allinone") && baseCount >= 3)
-          warn.push(t("msgAllinoneWarn"));
-        if (
-          products.includes("sunscreen") &&
-          products.includes("cushion") &&
-          traits.includes("spf")
-        )
+        const baseCount = ["toner", "serum", "lotion", "cream", "allinone"].filter((p) => products.includes(p)).length;
+        if (baseCount >= 4 && goal === "simplify") warn.push(t("msgBaseCountWarn"));
+        if (products.includes("allinone") && baseCount >= 3) warn.push(t("msgAllinoneWarn"));
+        if (products.includes("sunscreen") && products.includes("cushion") && traits.includes("spf")) {
           warn.push(t("msgSpfOverlapWarn"));
+        }
 
-        // 6) Skip list (what you can drop now)
-        if (products.includes("toner") && (products.includes("lotion") || products.includes("cream") || products.includes("allinone")))
+        if (products.includes("toner") && (products.includes("lotion") || products.includes("cream") || products.includes("allinone"))) {
           skip.push(t("msgTonerSkip"));
-        if (products.includes("serum") && baseCount >= 3)
-          skip.push(t("msgSerumSkip"));
-        if (has.spf && has.tone)
-          skip.push(t("msgCushionSkip"));
-        if (has.exfoliate)
-          skip.push(t("msgExfoliateSkip"));
+        }
+        if (products.includes("serum") && baseCount >= 3) skip.push(t("msgSerumSkip"));
+        if (has.spf && has.tone) skip.push(t("msgCushionSkip"));
+        if (has.exfoliate) skip.push(t("msgExfoliateSkip"));
 
-        // 7) Swap / consolidate suggestions
-        if (products.includes("sunscreen") && products.includes("cushion"))
-          swap.push(t("msgSunscreenCushionSwap"));
-        if (products.includes("toner") && products.includes("lotion"))
-          swap.push(t("msgTonerLotionSwap"));
-        if (products.includes("lotion") && products.includes("cream"))
-          swap.push(t("msgLotionCreamSwap"));
-        if (goal === "simplify" && baseCount >= 3)
-          swap.push(t("msgSimplifySwap"));
+        if (products.includes("sunscreen") && products.includes("cushion")) swap.push(t("msgSunscreenCushionSwap"));
+        if (products.includes("toner") && products.includes("lotion")) swap.push(t("msgTonerLotionSwap"));
+        if (products.includes("lotion") && products.includes("cream")) swap.push(t("msgLotionCreamSwap"));
+        if (goal === "simplify" && baseCount >= 3) swap.push(t("msgSimplifySwap"));
 
-        // 8) Minimal routine example
-        if (!has.spf)
-          minRoutine.push(t("msgMorningNoSpf"));
-        else if (goal === "makeup")
-          minRoutine.push(t("msgMorningMakeup"));
+        if (!has.spf) minRoutine.push(t("msgMorningNoSpf"));
+        else if (goal === "makeup") minRoutine.push(t("msgMorningMakeup"));
         else minRoutine.push(t("msgMorningDefault"));
         minRoutine.push(t("msgEvening"));
-        if (has.exfoliate)
-          minRoutine.push(t("msgExfoliateFreq"));
+        if (has.exfoliate) minRoutine.push(t("msgExfoliateFreq"));
 
-        // 9) Verdict + numbers
         const spfStep = has.spf ? 1 : 0;
         const toneStep = has.tone ? 1 : 0;
         const exfoliateStep = has.exfoliate ? 1 : 0;
@@ -681,100 +772,71 @@
           verdictDetail = t("verdictManyDesc");
         }
 
-        const shareLine = `${t("kpiCurrent")} ${currentSteps}${t("unitSteps")} → ${t("kpiMin")} ${minSteps}${t("unitSteps")}, ${t("kpiReduce")} -${reducible}`;
-
-        // 10) Normalize / de-dup
-        renderList($("#okList"), uniq(ok));
-        renderList($("#missingList"), uniq(missing));
-        renderList($("#warnList"), uniq(warn));
-        renderList($("#skipList"), uniq(skip));
-        renderList($("#swapList"), uniq(swap));
-        renderList($("#minRoutineList"), uniq(minRoutine));
-
         $("#verdictTitle").textContent = verdictTitle;
         $("#verdictDetail").textContent = verdictDetail;
-        $("#shareLine").textContent = shareLine;
-        $("#currentSteps").textContent = `${currentSteps}${t("unitSteps")}`;
-        $("#minSteps").textContent = `${minSteps}${t("unitSteps")}`;
-        $("#reduceSteps").textContent = `-${reducible}`;
+
+        const kpiContainer = $("#kpi");
+        kpiContainer.innerHTML = `
+          <div class="kpi-box">
+            <div class="kpi-label">${t("kpiCurrent")}</div>
+            <div class="kpi-value">${currentSteps}${t("unitSteps")}</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-label">${t("kpiMin")}</div>
+            <div class="kpi-value">${minSteps}${t("unitSteps")}</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-label">${t("kpiReduce")}</div>
+            <div class="kpi-value">-${reducible}</div>
+          </div>
+        `;
+
+        renderList($("#okList"), ok);
+        renderList($("#missingList"), missing);
+        renderList($("#warnList"), warn);
+        renderList($("#skipList"), skip);
+        renderList($("#swapList"), swap);
+        renderList($("#minRoutineList"), minRoutine);
       }
 
-      function resetAll() {
-        $$('input[type="checkbox"]').forEach((x) => (x.checked = false));
-        $("#skin").value = "unknown";
-        $("#goal").value = "simplify";
-        // Clear outputs
-        $("#verdictTitle").textContent = "-";
-        $("#verdictDetail").textContent = "-";
-        $("#shareLine").textContent = "-";
-        $("#currentSteps").textContent = "-";
-        $("#minSteps").textContent = "-";
-        $("#reduceSteps").textContent = "-";
-        renderList($("#okList"), []);
-        renderList($("#missingList"), []);
-        renderList($("#warnList"), []);
-        renderList($("#skipList"), []);
-        renderList($("#swapList"), []);
-        renderList($("#minRoutineList"), []);
-        setStep(1);
-      }
-
-      $("#analyze").addEventListener("click", analyze);
-      $("#reset").addEventListener("click", resetAll);
-
-      const steps = Array.from(document.querySelectorAll(".step"));
-      const totalSteps = steps.length;
-
-      function setStep(index) {
-        steps.forEach((step, idx) => {
-          step.classList.toggle("active", idx === index - 1);
+      function renderList(el, items) {
+        el.innerHTML = "";
+        if (!items.length) {
+          const li = document.createElement("li");
+          li.textContent = "-";
+          el.appendChild(li);
+          return;
+        }
+        items.forEach((t) => {
+          const li = document.createElement("li");
+          li.textContent = t;
+          el.appendChild(li);
         });
-        $("#stepLabel").textContent = `${index} / ${totalSteps}`;
-        $("#prevStep").disabled = index === 1;
-        $("#nextStep").disabled = index === totalSteps;
-        $("#prevStep").style.opacity = index === 1 ? "0.5" : "1";
-        $("#nextStep").style.opacity = index === totalSteps ? "0.5" : "1";
       }
 
-      let currentStep = 1;
-      setStep(currentStep);
+      function resetQuiz() {
+        currentQuestion = 0;
+        answers = {};
+        startScreen.style.display = "block";
+        questionScreen.classList.remove("active");
+        resultScreen.classList.remove("active");
+      }
 
-      $("#prevStep").addEventListener("click", () => {
-        if (currentStep > 1) currentStep -= 1;
-        setStep(currentStep);
-      });
-
-      $("#nextStep").addEventListener("click", () => {
-        if (currentStep < totalSteps) currentStep += 1;
-        setStep(currentStep);
-      });
-
-      // Initial defaults
-      resetAll();
+      function shareResult() {
+        const url = new URL(window.location.href);
+        url.searchParams.set("r", JSON.stringify(answers));
+        navigator.clipboard.writeText(url.toString());
+        alert(currentLang === "en" ? "Link copied!" : "링크가 복사되었습니다!");
+      }
 
       // i18n
       const translations = {
         ko: {
           title: "화장품 루틴 딸깍 체크",
           subtitle: "지금 쓰는 제품/특징만 체크하면, 루틴에서 <b>부족·과잉</b>을 표시하고 <b>최소 추천</b>을 알려줍니다. (참고용 정보이며 피부 진단/치료가 아닙니다.)",
-          otherServices: "다른 서비스 보기",
-          stepHint: "단계별로 눌러주세요",
-          step1Title: "1) 지금 쓰는 제품 종류",
-          step2Title: "2) 내 제품 특징(체감 기준)",
-          step3Title: "3) 피부 타입",
-          step4Title: "4) 목표",
-          skinUnknown: "잘 모르겠음",
-          skinDry: "건성",
-          skinOily: "지성",
-          skinCombo: "복합성",
-          skinSensitive: "민감성",
-          goalSimplify: "최대한 단순화(귀찮음 최소)",
-          goalBalance: "기능 밸런스(최소 구성)",
-          goalMakeup: "톤보정/메이크업 겸용 선호",
-          btnAnalyze: "분석하기",
-          btnReset: "초기화",
-          btnPrev: "이전",
-          btnNext: "다음",
+          startBtn: "시작하기 🚀",
+          btnPrev: "← 이전",
+          btnNext: "다음 →",
           resultTitle: "결과",
           kpiCurrent: "현재 단계 수",
           kpiMin: "추천 최소 단계",
@@ -789,21 +851,9 @@
           labelWarnDesc: "중복/자극 가능성",
           labelSwap: "대체/정리 추천",
           labelMinRoutine: "추천 최소 루틴(예시)",
+          btnShare: "결과 공유하기",
+          btnReset: "다시 하기",
           footer: "이 결과는 사용자가 선택한 정보에 기반한 일반적 가이드입니다. 개인별 알레르기/질환/약물 사용 등은 반영할 수 없습니다.",
-          tip: "팁: <span class=\"inline code\">선크림</span>은 대부분의 루틴에서 핵심으로 취급됩니다. 민감성은 각질 케어 중복 시 자극 위험이 커질 수 있어 보수적으로 안내합니다.",
-          productToner: "토너",
-          productSerum: "에센스/세럼",
-          productLotion: "로션",
-          productCream: "크림",
-          productSunscreen: "선크림",
-          productCushion: "쿠션/파운데이션",
-          productAllinone: "올인원",
-          productExfoliant: "각질/트러블 케어(AHA/BHA 등)",
-          traitHydrating: "보습 위주",
-          traitLight: "유분 적음/가벼움",
-          traitSoothing: "진정/쿨링 느낌",
-          traitToneup: "톤 보정/메이크업 대체",
-          traitSpf: "자외선 차단 포함",
           msgSpfOk: "자외선 차단(선케어)",
           msgSpfMissing: "자외선 차단: 선크림(또는 SPF 포함 제품) 1개는 거의 필수에 가깝습니다.",
           msgHydrateOk: "기본 보습(수분 공급)",
@@ -842,24 +892,9 @@
         en: {
           title: "Cosmetics Routine Checker",
           subtitle: "Check your current products/features, and we'll show <b>gaps·excess</b> in your routine and recommend <b>minimal essentials</b>. (Reference info only, not a skin diagnosis/treatment.)",
-          otherServices: "View other services",
-          stepHint: "Click step by step",
-          step1Title: "1) Product types you use",
-          step2Title: "2) Product features (by feel)",
-          step3Title: "3) Skin type",
-          step4Title: "4) Goal",
-          skinUnknown: "Not sure",
-          skinDry: "Dry",
-          skinOily: "Oily",
-          skinCombo: "Combination",
-          skinSensitive: "Sensitive",
-          goalSimplify: "Maximize simplicity (minimize hassle)",
-          goalBalance: "Functional balance (minimal setup)",
-          goalMakeup: "Prefer tone-up/makeup combo",
-          btnAnalyze: "Analyze",
-          btnReset: "Reset",
-          btnPrev: "Previous",
-          btnNext: "Next",
+          startBtn: "Start 🚀",
+          btnPrev: "← Previous",
+          btnNext: "Next →",
           resultTitle: "Result",
           kpiCurrent: "Current steps",
           kpiMin: "Recommended minimum",
@@ -874,21 +909,9 @@
           labelWarnDesc: "Duplication/irritation risk",
           labelSwap: "Swap/consolidate suggestions",
           labelMinRoutine: "Recommended minimal routine (example)",
+          btnShare: "Share Result",
+          btnReset: "Try Again",
           footer: "This result is a general guide based on your selections. Individual allergies/conditions/medications cannot be reflected.",
-          tip: "Tip: <span class=\"inline code\">Sunscreen</span> is treated as essential in most routines. Sensitive skin may have higher irritation risk with exfoliant overlap, so we guide conservatively.",
-          productToner: "Toner",
-          productSerum: "Essence/Serum",
-          productLotion: "Lotion",
-          productCream: "Cream",
-          productSunscreen: "Sunscreen",
-          productCushion: "Cushion/Foundation",
-          productAllinone: "All-in-one",
-          productExfoliant: "Exfoliant/Trouble care (AHA/BHA etc.)",
-          traitHydrating: "Hydrating focus",
-          traitLight: "Low oil/lightweight",
-          traitSoothing: "Soothing/cooling feel",
-          traitToneup: "Tone correction/makeup replacement",
-          traitSpf: "SPF included",
           msgSpfOk: "SPF (sun care)",
           msgSpfMissing: "SPF: One sunscreen (or SPF product) is almost essential.",
           msgHydrateOk: "Basic hydration (moisture supply)",
@@ -926,19 +949,11 @@
         },
       };
 
-      const defaultLang = "ko";
-      const supportedLangs = ["ko", "en"];
-      let currentLang = defaultLang;
-
       function t(key, vars = {}) {
         const langTable = translations[currentLang] || translations.ko;
         const template = langTable?.[key] ?? translations.ko?.[key] ?? key;
-        if (typeof template !== "string") {
-          return template;
-        }
-        return template.replace(/\{(\w+)\}/g, (_, token) =>
-          vars[token] !== undefined ? vars[token] : `{${token}}`
-        );
+        if (typeof template !== "string") return template;
+        return template.replace(/\{(\w+)\}/g, (_, token) => (vars[token] !== undefined ? vars[token] : `{${token}}`));
       }
 
       function applyTranslations() {
@@ -948,43 +963,26 @@
         document.querySelectorAll("[data-i18n-html]").forEach((el) => {
           el.innerHTML = t(el.dataset.i18nHtml);
         });
-        // Update select options
-        const skinSelect = $("#skin");
-        if (skinSelect) {
-          Array.from(skinSelect.options).forEach((opt) => {
-            if (opt.dataset.i18n) {
-              opt.textContent = t(opt.dataset.i18n);
-            }
-          });
-        }
-        const goalSelect = $("#goal");
-        if (goalSelect) {
-          Array.from(goalSelect.options).forEach((opt) => {
-            if (opt.dataset.i18n) {
-              opt.textContent = t(opt.dataset.i18n);
-            }
-          });
-        }
-        // Product/trait labels are already handled by [data-i18n] above
-        // No need for additional processing
       }
 
-      function setLang(lang, options = {}) {
-        const nextLang = translations[lang] ? lang : defaultLang;
-        currentLang = nextLang;
-        document.documentElement.lang = nextLang;
-        localStorage.setItem("preferredLang", nextLang);
+      function setLang(lang, updateUrl = true) {
+        if (!translations[lang]) lang = "ko";
+        currentLang = lang;
+        document.documentElement.lang = lang;
+        localStorage.setItem("preferredLang", lang);
         document.querySelectorAll(".lang-switch button").forEach((button) => {
-          button.classList.toggle("active", button.dataset.lang === nextLang);
+          button.classList.toggle("active", button.dataset.lang === lang);
         });
         applyTranslations();
-        // Re-run analyze if there's a result
-        if ($("#verdictTitle") && $("#verdictTitle").textContent !== "-") {
+        if (questionScreen.classList.contains("active")) {
+          showQuestion();
+        }
+        if (resultScreen.classList.contains("active")) {
           analyze();
         }
-        if (options.updateUrl) {
+        if (updateUrl) {
           const url = new URL(window.location.href);
-          url.searchParams.set("lang", nextLang);
+          url.searchParams.set("lang", lang);
           window.history.replaceState({}, "", url);
         }
       }
@@ -992,37 +990,31 @@
       function detectLang() {
         const params = new URLSearchParams(window.location.search);
         const paramLang = params.get("lang");
-        if (supportedLangs.includes(paramLang)) return paramLang;
+        if (paramLang && translations[paramLang]) return paramLang;
         const stored = localStorage.getItem("preferredLang");
-        if (supportedLangs.includes(stored)) return stored;
-        const browserLang =
-          navigator.languages && navigator.languages.length
-            ? navigator.languages[0]
-            : navigator.language;
-        if (browserLang && browserLang.toLowerCase().startsWith("ko")) {
-          return "ko";
-        }
-        return defaultLang;
+        if (stored && translations[stored]) return stored;
+        const browserLang = navigator.languages?.[0] || navigator.language;
+        if (browserLang?.toLowerCase().startsWith("ko")) return "ko";
+        return "en";
       }
 
       document.querySelectorAll(".lang-switch button").forEach((button) => {
         button.addEventListener("click", () => {
-          setLang(button.dataset.lang, { updateUrl: true });
+          setLang(button.dataset.lang, true);
         });
       });
 
-      setLang(detectLang(), { updateUrl: false });
+      init();
     </script>
-  
-<ins class="adsbygoogle"
-     style="display:block; text-align:center"
-     data-ad-client="ca-pub-1204894220949193"
-     data-ad-slot="5145068706"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-    
-</body>
+
+    <ins class="adsbygoogle"
+       style="display:block; text-align:center"
+       data-ad-client="ca-pub-1204894220949193"
+       data-ad-slot="5145068706"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+    <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </body>
 </html>
