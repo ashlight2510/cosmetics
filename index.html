@@ -13,6 +13,30 @@
     />
     <title>화장품 루틴 딸깍 체크</title>
     <style>
+      .lang-switch {
+        display: inline-flex;
+        gap: 6px;
+        padding: 4px;
+        border-radius: 999px;
+        background: rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        margin-bottom: 12px;
+      }
+      .lang-switch button {
+        border: none;
+        background: transparent;
+        color: #666;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 6px 12px;
+        border-radius: 999px;
+        cursor: pointer;
+        letter-spacing: 0.08em;
+      }
+      .lang-switch button.active {
+        background: #2f5cff;
+        color: #fff;
+      }
       :root {
         color-scheme: light;
       }
@@ -304,9 +328,13 @@
   </style>
 </head>
   <body><div class="wrap">
+      <div class="lang-switch" role="tablist" aria-label="Language switcher">
+        <button type="button" data-lang="ko" class="active">한국어</button>
+        <button type="button" data-lang="en">English</button>
+      </div>
       <header>
-        <h1>화장품 루틴 딸깍 체크</h1>
-        <p class="sub">
+        <h1 data-i18n="title">화장품 루틴 딸깍 체크</h1>
+        <p class="sub" data-i18n-html="subtitle">
           지금 쓰는 제품/특징만 체크하면, 루틴에서 <b>부족·과잉</b>을 표시하고
           <b>최소 추천</b>을 알려줍니다. (참고용 정보이며 피부 진단/치료가
           아닙니다.)
@@ -317,7 +345,7 @@
             href="https://funnyfunny.cloud/"
             target="_blank"
             rel="noreferrer"
-            >다른 서비스 보기</a
+            data-i18n="otherServices">다른 서비스 보기</a
           >
         </div>
       </header>
@@ -326,94 +354,92 @@
         <!-- INPUT -->
         <section class="card">
           <div class="step-meta">
-            <span>단계별로 눌러주세요</span>
+            <span data-i18n="stepHint">단계별로 눌러주세요</span>
             <span class="step-indicator" id="stepLabel">1 / 4</span>
           </div>
 
           <div class="step active" data-step="1">
-            <h2>1) 지금 쓰는 제품 종류</h2>
+            <h2 data-i18n="step1Title">1) 지금 쓰는 제품 종류</h2>
             <div class="row" id="products">
               <label class="chip"
-                ><input type="checkbox" value="toner" />토너</label
+                ><input type="checkbox" value="toner" /><span data-i18n="productToner">토너</span></label
               >
               <label class="chip"
-                ><input type="checkbox" value="serum" />에센스/세럼</label
+                ><input type="checkbox" value="serum" /><span data-i18n="productSerum">에센스/세럼</span></label
               >
               <label class="chip"
-                ><input type="checkbox" value="lotion" />로션</label
+                ><input type="checkbox" value="lotion" /><span data-i18n="productLotion">로션</span></label
               >
               <label class="chip"
-                ><input type="checkbox" value="cream" />크림</label
+                ><input type="checkbox" value="cream" /><span data-i18n="productCream">크림</span></label
               >
               <label class="chip"
-                ><input type="checkbox" value="sunscreen" />선크림</label
+                ><input type="checkbox" value="sunscreen" /><span data-i18n="productSunscreen">선크림</span></label
               >
               <label class="chip"
-                ><input type="checkbox" value="cushion" />쿠션/파운데이션</label
+                ><input type="checkbox" value="cushion" /><span data-i18n="productCushion">쿠션/파운데이션</span></label
               >
               <label class="chip"
-                ><input type="checkbox" value="allinone" />올인원</label
+                ><input type="checkbox" value="allinone" /><span data-i18n="productAllinone">올인원</span></label
               >
               <label class="chip"
-                ><input type="checkbox" value="exfoliant" />각질/트러블
-                케어(AHA/BHA 등)</label
+                ><input type="checkbox" value="exfoliant" /><span data-i18n="productExfoliant">각질/트러블 케어(AHA/BHA 등)</span></label
               >
             </div>
           </div>
 
           <div class="step" data-step="2">
-            <h2>2) 내 제품 특징(체감 기준)</h2>
+            <h2 data-i18n="step2Title">2) 내 제품 특징(체감 기준)</h2>
             <div class="row" id="traits">
               <label class="chip"
-                ><input type="checkbox" value="hydrating" />보습 위주</label
+                ><input type="checkbox" value="hydrating" /><span data-i18n="traitHydrating">보습 위주</span></label
               >
               <label class="chip"
-                ><input type="checkbox" value="light" />유분 적음/가벼움</label
+                ><input type="checkbox" value="light" /><span data-i18n="traitLight">유분 적음/가벼움</span></label
               >
               <label class="chip"
-                ><input type="checkbox" value="soothing" />진정/쿨링 느낌</label
+                ><input type="checkbox" value="soothing" /><span data-i18n="traitSoothing">진정/쿨링 느낌</span></label
               >
               <label class="chip"
-                ><input type="checkbox" value="toneup" />톤 보정/메이크업
-                대체</label
+                ><input type="checkbox" value="toneup" /><span data-i18n="traitToneup">톤 보정/메이크업 대체</span></label
               >
               <label class="chip"
-                ><input type="checkbox" value="spf" />자외선 차단 포함</label
+                ><input type="checkbox" value="spf" /><span data-i18n="traitSpf">자외선 차단 포함</span></label
               >
             </div>
           </div>
 
           <div class="step" data-step="3">
-            <h2>3) 피부 타입</h2>
+            <h2 data-i18n="step3Title">3) 피부 타입</h2>
             <select id="skin">
-              <option value="unknown">잘 모르겠음</option>
-              <option value="dry">건성</option>
-              <option value="oily">지성</option>
-              <option value="combo">복합성</option>
-              <option value="sensitive">민감성</option>
+              <option value="unknown" data-i18n="skinUnknown">잘 모르겠음</option>
+              <option value="dry" data-i18n="skinDry">건성</option>
+              <option value="oily" data-i18n="skinOily">지성</option>
+              <option value="combo" data-i18n="skinCombo">복합성</option>
+              <option value="sensitive" data-i18n="skinSensitive">민감성</option>
             </select>
           </div>
 
           <div class="step" data-step="4">
-            <h2>4) 목표</h2>
+            <h2 data-i18n="step4Title">4) 목표</h2>
             <select id="goal">
-              <option value="simplify">최대한 단순화(귀찮음 최소)</option>
-              <option value="balance">기능 밸런스(최소 구성)</option>
-              <option value="makeup">톤보정/메이크업 겸용 선호</option>
+              <option value="simplify" data-i18n="goalSimplify">최대한 단순화(귀찮음 최소)</option>
+              <option value="balance" data-i18n="goalBalance">기능 밸런스(최소 구성)</option>
+              <option value="makeup" data-i18n="goalMakeup">톤보정/메이크업 겸용 선호</option>
             </select>
 
             <div class="btns">
-              <button class="primary" id="analyze">분석하기</button>
-              <button class="ghost" id="reset">초기화</button>
+              <button class="primary" id="analyze" data-i18n="btnAnalyze">분석하기</button>
+              <button class="ghost" id="reset" data-i18n="btnReset">초기화</button>
             </div>
           </div>
 
           <div class="step-nav">
-            <button class="ghost" id="prevStep">이전</button>
-            <button class="ghost" id="nextStep">다음</button>
+            <button class="ghost" id="prevStep" data-i18n="btnPrev">이전</button>
+            <button class="ghost" id="nextStep" data-i18n="btnNext">다음</button>
           </div>
 
-          <p class="muted" style="margin-top: 10px">
+          <p class="muted" style="margin-top: 10px" data-i18n-html="tip">
             팁: <span class="inline code">선크림</span>은 대부분의 루틴에서
             핵심으로 취급됩니다. 민감성은 각질 케어 중복 시 자극 위험이 커질 수
             있어 보수적으로 안내합니다.
@@ -422,7 +448,7 @@
 
         <!-- RESULT -->
         <section class="card result" aria-live="polite">
-          <h2>결과</h2>
+          <h2 data-i18n="resultTitle">결과</h2>
 
           <div class="verdict" id="verdictBox">
             <strong id="verdictTitle">-</strong>
@@ -432,50 +458,50 @@
 
           <div class="kpi">
             <div class="box">
-              <p class="t">현재 단계 수</p>
+              <p class="t" data-i18n="kpiCurrent">현재 단계 수</p>
               <p class="v" id="currentSteps">-</p>
             </div>
             <div class="box">
-              <p class="t">추천 최소 단계</p>
+              <p class="t" data-i18n="kpiMin">추천 최소 단계</p>
               <p class="v" id="minSteps">-</p>
             </div>
             <div class="box">
-              <p class="t">줄일 수 있는 단계</p>
+              <p class="t" data-i18n="kpiReduce">줄일 수 있는 단계</p>
               <p class="v" id="reduceSteps">-</p>
             </div>
           </div>
 
-          <h3><span class="pill ok">충분</span>현재 잘 커버되는 것</h3>
+          <h3><span class="pill ok" data-i18n="labelOk">충분</span><span data-i18n="labelOkDesc">현재 잘 커버되는 것</span></h3>
           <ul id="okList">
             <li>-</li>
           </ul>
 
-          <h3><span class="pill bad">부족</span>추가하면 좋은 것(최소)</h3>
+          <h3><span class="pill bad" data-i18n="labelMissing">부족</span><span data-i18n="labelMissingDesc">추가하면 좋은 것(최소)</span></h3>
           <ul id="missingList">
             <li>-</li>
           </ul>
 
-          <h3><span class="pill warn">삭제</span>지금 안 해도 되는 것</h3>
+          <h3><span class="pill warn" data-i18n="labelSkip">삭제</span><span data-i18n="labelSkipDesc">지금 안 해도 되는 것</span></h3>
           <ul id="skipList">
             <li>-</li>
           </ul>
 
-          <h3><span class="pill warn">주의</span>중복/자극 가능성</h3>
+          <h3><span class="pill warn" data-i18n="labelWarn">주의</span><span data-i18n="labelWarnDesc">중복/자극 가능성</span></h3>
           <ul id="warnList">
             <li>-</li>
           </ul>
 
-          <h3>대체/정리 추천</h3>
+          <h3 data-i18n="labelSwap">대체/정리 추천</h3>
           <ul id="swapList">
             <li>-</li>
           </ul>
 
-          <h3>추천 최소 루틴(예시)</h3>
+          <h3 data-i18n="labelMinRoutine">추천 최소 루틴(예시)</h3>
           <ul id="minRoutineList">
             <li>-</li>
           </ul>
 
-          <footer>
+          <footer data-i18n="footer">
             이 결과는 사용자가 선택한 정보에 기반한 일반적 가이드입니다. 개인별
             알레르기/질환/약물 사용 등은 반영할 수 없습니다.
           </footer>
@@ -552,22 +578,20 @@
         const minRoutine = [];
 
         // 1) SPF is the main "missing" for daytime routines
-        if (has.spf) ok.push("자외선 차단(선케어)");
+        if (has.spf) ok.push(t("msgSpfOk"));
         else
-          missing.push(
-            "자외선 차단: 선크림(또는 SPF 포함 제품) 1개는 거의 필수에 가깝습니다."
-          );
+          missing.push(t("msgSpfMissing"));
 
         // 2) Hydration / Moisture
-        if (has.hydrate) ok.push("기본 보습(수분 공급)");
+        if (has.hydrate) ok.push(t("msgHydrateOk"));
         else
-          missing.push("기본 보습: 가벼운 보습제(로션/올인원/수분크림 중 1개)");
+          missing.push(t("msgHydrateMissing"));
 
         // 3) Barrier / Occlusive
         if (skin === "dry") {
-          if (has.occlusive) ok.push("유분/막 형성(건성 보완)");
+          if (has.occlusive) ok.push(t("msgOcclusiveOk"));
           else
-            missing.push("건성 보완: 크림 또는 오클루시브(막 형성) 역할 1개");
+            missing.push(t("msgOcclusiveMissing"));
         }
         if (skin === "oily") {
           // Warn if too heavy
@@ -576,19 +600,15 @@
             traits.includes("hydrating") &&
             !traits.includes("light")
           ) {
-            warn.push(
-              "지성인데 크림/보습 위주 조합이 무겁게 느껴질 수 있습니다(번들/밀림 가능)."
-            );
+            warn.push(t("msgOilyWarn"));
           }
         }
 
         // 4) Exfoliant caution
         if (has.exfoliate) {
-          ok.push("각질/트러블 케어");
+          ok.push(t("msgExfoliateOk"));
           if (skin === "sensitive")
-            warn.push(
-              "민감성 + 각질/트러블 케어는 자극 가능성이 높아 빈도/농도 조절이 필요합니다."
-            );
+            warn.push(t("msgSensitiveWarn"));
         }
 
         // 5) Duplication / overuse heuristics
@@ -600,53 +620,45 @@
           "allinone",
         ].filter((p) => products.includes(p)).length;
         if (baseCount >= 4 && goal === "simplify")
-          warn.push(
-            "기초 단계가 많습니다. 단순화 목표라면 1~2단계로 줄여도 체감 차이가 적을 수 있습니다."
-          );
+          warn.push(t("msgBaseCountWarn"));
         if (products.includes("allinone") && baseCount >= 3)
-          warn.push(
-            "올인원이 있는데 기초가 여러 개 겹칩니다. 올인원 중심으로 정리 가능해 보입니다."
-          );
+          warn.push(t("msgAllinoneWarn"));
         if (
           products.includes("sunscreen") &&
           products.includes("cushion") &&
           traits.includes("spf")
         )
-          warn.push(
-            "SPF 제품이 2개 이상 겹칩니다. 사용감/밀림이 생기면 하나만 남겨도 됩니다."
-          );
+          warn.push(t("msgSpfOverlapWarn"));
 
         // 6) Skip list (what you can drop now)
         if (products.includes("toner") && (products.includes("lotion") || products.includes("cream") || products.includes("allinone")))
-          skip.push("토너: 로션/크림/올인원이 있으면 필수 아님");
+          skip.push(t("msgTonerSkip"));
         if (products.includes("serum") && baseCount >= 3)
-          skip.push("세럼: 기초 단계가 많으면 우선 빼고 체감 확인");
+          skip.push(t("msgSerumSkip"));
         if (has.spf && has.tone)
-          skip.push("쿠션/톤보정: 선케어가 충분하면 생략 가능");
+          skip.push(t("msgCushionSkip"));
         if (has.exfoliate)
-          skip.push("각질 케어: 매일은 불필요(주 2~3회면 충분)");
+          skip.push(t("msgExfoliateSkip"));
 
         // 7) Swap / consolidate suggestions
         if (products.includes("sunscreen") && products.includes("cushion"))
-          swap.push("선크림 + 쿠션 → 톤업 선크림 1개로 합치기 가능");
+          swap.push(t("msgSunscreenCushionSwap"));
         if (products.includes("toner") && products.includes("lotion"))
-          swap.push("토너 + 로션 → 가벼운 로션 1개로 대체 가능");
+          swap.push(t("msgTonerLotionSwap"));
         if (products.includes("lotion") && products.includes("cream"))
-          swap.push("로션 + 크림 → 보습감 기준으로 1개만 남기기");
+          swap.push(t("msgLotionCreamSwap"));
         if (goal === "simplify" && baseCount >= 3)
-          swap.push(
-            "기초 다단계 → 올인원 1개 또는 로션 1개로 정리 권장"
-          );
+          swap.push(t("msgSimplifySwap"));
 
         // 8) Minimal routine example
         if (!has.spf)
-          minRoutine.push("아침: 가벼운 보습 1개 + 선크림 1개(추가)");
+          minRoutine.push(t("msgMorningNoSpf"));
         else if (goal === "makeup")
-          minRoutine.push("아침: 톤업 가능한 선크림 1개로 통합");
-        else minRoutine.push("아침: 보습 1개 + 선케어 1개");
-        minRoutine.push("저녁: 보습 1개만");
+          minRoutine.push(t("msgMorningMakeup"));
+        else minRoutine.push(t("msgMorningDefault"));
+        minRoutine.push(t("msgEvening"));
         if (has.exfoliate)
-          minRoutine.push("각질 케어: 주 2~3회로 빈도 낮추기");
+          minRoutine.push(t("msgExfoliateFreq"));
 
         // 9) Verdict + numbers
         const spfStep = has.spf ? 1 : 0;
@@ -656,24 +668,20 @@
         const minSteps = 2;
         const reducible = Math.max(0, currentSteps - minSteps);
 
-        let verdictTitle = "👉 이미 최소 루틴입니다";
-        let verdictDetail =
-          "지금보다 더 줄이면 보습 체감이 떨어질 가능성이 큽니다.";
+        let verdictTitle = t("verdictMinimal");
+        let verdictDetail = t("verdictMinimalDesc");
         if (!has.spf || !has.hydrate) {
-          verdictTitle = "👉 핵심이 비어 있습니다";
-          verdictDetail =
-            "보습 또는 선케어 중 하나는 꼭 채우는 편이 안전합니다.";
+          verdictTitle = t("verdictEmpty");
+          verdictDetail = t("verdictEmptyDesc");
         } else if (reducible >= 2) {
-          verdictTitle = "👉 지금 루틴은 조금 과합니다";
-          verdictDetail =
-            "2단계까지 줄여도 체감 차이가 거의 없을 가능성이 큽니다.";
+          verdictTitle = t("verdictExcess");
+          verdictDetail = t("verdictExcessDesc");
         } else if (reducible === 1) {
-          verdictTitle = "👉 약간 많은 편입니다";
-          verdictDetail =
-            "한 단계만 줄여도 귀찮음이 눈에 띄게 줄어듭니다.";
+          verdictTitle = t("verdictMany");
+          verdictDetail = t("verdictManyDesc");
         }
 
-        const shareLine = `현재 ${currentSteps}단계 → 추천 최소 ${minSteps}단계, 내일 줄일 수 있는 단계 -${reducible}`;
+        const shareLine = `${t("kpiCurrent")} ${currentSteps}${t("unitSteps")} → ${t("kpiMin")} ${minSteps}${t("unitSteps")}, ${t("kpiReduce")} -${reducible}`;
 
         // 10) Normalize / de-dup
         renderList($("#okList"), uniq(ok));
@@ -686,8 +694,8 @@
         $("#verdictTitle").textContent = verdictTitle;
         $("#verdictDetail").textContent = verdictDetail;
         $("#shareLine").textContent = shareLine;
-        $("#currentSteps").textContent = `${currentSteps}단계`;
-        $("#minSteps").textContent = `${minSteps}단계`;
+        $("#currentSteps").textContent = `${currentSteps}${t("unitSteps")}`;
+        $("#minSteps").textContent = `${minSteps}${t("unitSteps")}`;
         $("#reduceSteps").textContent = `-${reducible}`;
       }
 
@@ -743,6 +751,289 @@
 
       // Initial defaults
       resetAll();
+
+      // i18n
+      const translations = {
+        ko: {
+          title: "화장품 루틴 딸깍 체크",
+          subtitle: "지금 쓰는 제품/특징만 체크하면, 루틴에서 <b>부족·과잉</b>을 표시하고 <b>최소 추천</b>을 알려줍니다. (참고용 정보이며 피부 진단/치료가 아닙니다.)",
+          otherServices: "다른 서비스 보기",
+          stepHint: "단계별로 눌러주세요",
+          step1Title: "1) 지금 쓰는 제품 종류",
+          step2Title: "2) 내 제품 특징(체감 기준)",
+          step3Title: "3) 피부 타입",
+          step4Title: "4) 목표",
+          skinUnknown: "잘 모르겠음",
+          skinDry: "건성",
+          skinOily: "지성",
+          skinCombo: "복합성",
+          skinSensitive: "민감성",
+          goalSimplify: "최대한 단순화(귀찮음 최소)",
+          goalBalance: "기능 밸런스(최소 구성)",
+          goalMakeup: "톤보정/메이크업 겸용 선호",
+          btnAnalyze: "분석하기",
+          btnReset: "초기화",
+          btnPrev: "이전",
+          btnNext: "다음",
+          resultTitle: "결과",
+          kpiCurrent: "현재 단계 수",
+          kpiMin: "추천 최소 단계",
+          kpiReduce: "줄일 수 있는 단계",
+          labelOk: "충분",
+          labelOkDesc: "현재 잘 커버되는 것",
+          labelMissing: "부족",
+          labelMissingDesc: "추가하면 좋은 것(최소)",
+          labelSkip: "삭제",
+          labelSkipDesc: "지금 안 해도 되는 것",
+          labelWarn: "주의",
+          labelWarnDesc: "중복/자극 가능성",
+          labelSwap: "대체/정리 추천",
+          labelMinRoutine: "추천 최소 루틴(예시)",
+          footer: "이 결과는 사용자가 선택한 정보에 기반한 일반적 가이드입니다. 개인별 알레르기/질환/약물 사용 등은 반영할 수 없습니다.",
+          tip: "팁: <span class=\"inline code\">선크림</span>은 대부분의 루틴에서 핵심으로 취급됩니다. 민감성은 각질 케어 중복 시 자극 위험이 커질 수 있어 보수적으로 안내합니다.",
+          productToner: "토너",
+          productSerum: "에센스/세럼",
+          productLotion: "로션",
+          productCream: "크림",
+          productSunscreen: "선크림",
+          productCushion: "쿠션/파운데이션",
+          productAllinone: "올인원",
+          productExfoliant: "각질/트러블 케어(AHA/BHA 등)",
+          traitHydrating: "보습 위주",
+          traitLight: "유분 적음/가벼움",
+          traitSoothing: "진정/쿨링 느낌",
+          traitToneup: "톤 보정/메이크업 대체",
+          traitSpf: "자외선 차단 포함",
+          msgSpfOk: "자외선 차단(선케어)",
+          msgSpfMissing: "자외선 차단: 선크림(또는 SPF 포함 제품) 1개는 거의 필수에 가깝습니다.",
+          msgHydrateOk: "기본 보습(수분 공급)",
+          msgHydrateMissing: "기본 보습: 가벼운 보습제(로션/올인원/수분크림 중 1개)",
+          msgOcclusiveOk: "유분/막 형성(건성 보완)",
+          msgOcclusiveMissing: "건성 보완: 크림 또는 오클루시브(막 형성) 역할 1개",
+          msgOilyWarn: "지성인데 크림/보습 위주 조합이 무겁게 느껴질 수 있습니다(번들/밀림 가능).",
+          msgExfoliateOk: "각질/트러블 케어",
+          msgSensitiveWarn: "민감성 + 각질/트러블 케어는 자극 가능성이 높아 빈도/농도 조절이 필요합니다.",
+          msgBaseCountWarn: "기초 단계가 많습니다. 단순화 목표라면 1~2단계로 줄여도 체감 차이가 적을 수 있습니다.",
+          msgAllinoneWarn: "올인원이 있는데 기초가 여러 개 겹칩니다. 올인원 중심으로 정리 가능해 보입니다.",
+          msgSpfOverlapWarn: "SPF 제품이 2개 이상 겹칩니다. 사용감/밀림이 생기면 하나만 남겨도 됩니다.",
+          msgTonerSkip: "토너: 로션/크림/올인원이 있으면 필수 아님",
+          msgSerumSkip: "세럼: 기초 단계가 많으면 우선 빼고 체감 확인",
+          msgCushionSkip: "쿠션/톤보정: 선케어가 충분하면 생략 가능",
+          msgExfoliateSkip: "각질 케어: 매일은 불필요(주 2~3회면 충분)",
+          msgSunscreenCushionSwap: "선크림 + 쿠션 → 톤업 선크림 1개로 합치기 가능",
+          msgTonerLotionSwap: "토너 + 로션 → 가벼운 로션 1개로 대체 가능",
+          msgLotionCreamSwap: "로션 + 크림 → 보습감 기준으로 1개만 남기기",
+          msgSimplifySwap: "기초 다단계 → 올인원 1개 또는 로션 1개로 정리 권장",
+          msgMorningNoSpf: "아침: 가벼운 보습 1개 + 선크림 1개(추가)",
+          msgMorningMakeup: "아침: 톤업 가능한 선크림 1개로 통합",
+          msgMorningDefault: "아침: 보습 1개 + 선케어 1개",
+          msgEvening: "저녁: 보습 1개만",
+          msgExfoliateFreq: "각질 케어: 주 2~3회로 빈도 낮추기",
+          verdictMinimal: "👉 이미 최소 루틴입니다",
+          verdictMinimalDesc: "지금보다 더 줄이면 보습 체감이 떨어질 가능성이 큽니다.",
+          verdictEmpty: "👉 핵심이 비어 있습니다",
+          verdictEmptyDesc: "보습 또는 선케어 중 하나는 꼭 채우는 편이 안전합니다.",
+          verdictExcess: "👉 지금 루틴은 조금 과합니다",
+          verdictExcessDesc: "2단계까지 줄여도 체감 차이가 거의 없을 가능성이 큽니다.",
+          verdictMany: "👉 약간 많은 편입니다",
+          verdictManyDesc: "한 단계만 줄여도 귀찮음이 눈에 띄게 줄어듭니다.",
+          unitSteps: "단계",
+        },
+        en: {
+          title: "Cosmetics Routine Checker",
+          subtitle: "Check your current products/features, and we'll show <b>gaps·excess</b> in your routine and recommend <b>minimal essentials</b>. (Reference info only, not a skin diagnosis/treatment.)",
+          otherServices: "View other services",
+          stepHint: "Click step by step",
+          step1Title: "1) Product types you use",
+          step2Title: "2) Product features (by feel)",
+          step3Title: "3) Skin type",
+          step4Title: "4) Goal",
+          skinUnknown: "Not sure",
+          skinDry: "Dry",
+          skinOily: "Oily",
+          skinCombo: "Combination",
+          skinSensitive: "Sensitive",
+          goalSimplify: "Maximize simplicity (minimize hassle)",
+          goalBalance: "Functional balance (minimal setup)",
+          goalMakeup: "Prefer tone-up/makeup combo",
+          btnAnalyze: "Analyze",
+          btnReset: "Reset",
+          btnPrev: "Previous",
+          btnNext: "Next",
+          resultTitle: "Result",
+          kpiCurrent: "Current steps",
+          kpiMin: "Recommended minimum",
+          kpiReduce: "Steps you can reduce",
+          labelOk: "Sufficient",
+          labelOkDesc: "Currently well covered",
+          labelMissing: "Missing",
+          labelMissingDesc: "Good to add (minimum)",
+          labelSkip: "Skip",
+          labelSkipDesc: "Not needed now",
+          labelWarn: "Caution",
+          labelWarnDesc: "Duplication/irritation risk",
+          labelSwap: "Swap/consolidate suggestions",
+          labelMinRoutine: "Recommended minimal routine (example)",
+          footer: "This result is a general guide based on your selections. Individual allergies/conditions/medications cannot be reflected.",
+          tip: "Tip: <span class=\"inline code\">Sunscreen</span> is treated as essential in most routines. Sensitive skin may have higher irritation risk with exfoliant overlap, so we guide conservatively.",
+          productToner: "Toner",
+          productSerum: "Essence/Serum",
+          productLotion: "Lotion",
+          productCream: "Cream",
+          productSunscreen: "Sunscreen",
+          productCushion: "Cushion/Foundation",
+          productAllinone: "All-in-one",
+          productExfoliant: "Exfoliant/Trouble care (AHA/BHA etc.)",
+          traitHydrating: "Hydrating focus",
+          traitLight: "Low oil/lightweight",
+          traitSoothing: "Soothing/cooling feel",
+          traitToneup: "Tone correction/makeup replacement",
+          traitSpf: "SPF included",
+          msgSpfOk: "SPF (sun care)",
+          msgSpfMissing: "SPF: One sunscreen (or SPF product) is almost essential.",
+          msgHydrateOk: "Basic hydration (moisture supply)",
+          msgHydrateMissing: "Basic hydration: One lightweight moisturizer (lotion/all-in-one/moisturizer)",
+          msgOcclusiveOk: "Oil/barrier formation (dry skin support)",
+          msgOcclusiveMissing: "Dry skin support: One cream or occlusive (barrier-forming) product",
+          msgOilyWarn: "Oily skin with cream/hydrating combo may feel heavy (pilling/stickiness possible).",
+          msgExfoliateOk: "Exfoliant/trouble care",
+          msgSensitiveWarn: "Sensitive + exfoliant/trouble care has high irritation risk, frequency/concentration control needed.",
+          msgBaseCountWarn: "Too many base steps. For simplification goal, reducing to 1-2 steps may have minimal difference.",
+          msgAllinoneWarn: "All-in-one exists but base steps overlap. Can consolidate around all-in-one.",
+          msgSpfOverlapWarn: "Two or more SPF products overlap. If pilling/stickiness occurs, keep only one.",
+          msgTonerSkip: "Toner: Not essential if lotion/cream/all-in-one exists",
+          msgSerumSkip: "Serum: If base steps are many, remove first and check feel",
+          msgCushionSkip: "Cushion/tone-up: Can skip if sun care is sufficient",
+          msgExfoliateSkip: "Exfoliant care: Not needed daily (2-3 times/week is enough)",
+          msgSunscreenCushionSwap: "Sunscreen + cushion → Can combine into one tone-up sunscreen",
+          msgTonerLotionSwap: "Toner + lotion → Can replace with one lightweight lotion",
+          msgLotionCreamSwap: "Lotion + cream → Keep only one based on moisturizing feel",
+          msgSimplifySwap: "Multi-step base → Recommend consolidating to all-in-one or one lotion",
+          msgMorningNoSpf: "Morning: One lightweight moisturizer + one sunscreen (add)",
+          msgMorningMakeup: "Morning: Integrate into one tone-up sunscreen",
+          msgMorningDefault: "Morning: One moisturizer + one sun care",
+          msgEvening: "Evening: One moisturizer only",
+          msgExfoliateFreq: "Exfoliant care: Lower frequency to 2-3 times/week",
+          verdictMinimal: "👉 Already minimal routine",
+          verdictMinimalDesc: "Reducing further may lower moisturizing feel.",
+          verdictEmpty: "👉 Core is missing",
+          verdictEmptyDesc: "It's safer to fill either hydration or sun care.",
+          verdictExcess: "👉 Current routine is a bit excessive",
+          verdictExcessDesc: "Reducing by 2 steps may have almost no difference in feel.",
+          verdictMany: "👉 Slightly too many",
+          verdictManyDesc: "Reducing by one step will noticeably reduce hassle.",
+          unitSteps: "steps",
+        },
+      };
+
+      const defaultLang = "ko";
+      const supportedLangs = ["ko", "en"];
+      let currentLang = defaultLang;
+
+      function t(key, vars = {}) {
+        const langTable = translations[currentLang] || translations.ko;
+        const template = langTable?.[key] ?? translations.ko?.[key] ?? key;
+        if (typeof template !== "string") {
+          return template;
+        }
+        return template.replace(/\{(\w+)\}/g, (_, token) =>
+          vars[token] !== undefined ? vars[token] : `{${token}}`
+        );
+      }
+
+      function applyTranslations() {
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+          el.textContent = t(el.dataset.i18n);
+        });
+        document.querySelectorAll("[data-i18n-html]").forEach((el) => {
+          el.innerHTML = t(el.dataset.i18nHtml);
+        });
+        // Update select options
+        const skinSelect = $("#skin");
+        if (skinSelect) {
+          Array.from(skinSelect.options).forEach((opt) => {
+            if (opt.dataset.i18n) {
+              opt.textContent = t(opt.dataset.i18n);
+            }
+          });
+        }
+        const goalSelect = $("#goal");
+        if (goalSelect) {
+          Array.from(goalSelect.options).forEach((opt) => {
+            if (opt.dataset.i18n) {
+              opt.textContent = t(opt.dataset.i18n);
+            }
+          });
+        }
+        // Update product/trait labels
+        document.querySelectorAll("#products label, #traits label").forEach((label) => {
+          const input = label.querySelector("input");
+          if (input && input.value) {
+            const key = `product${input.value.charAt(0).toUpperCase() + input.value.slice(1)}` || `trait${input.value.charAt(0).toUpperCase() + input.value.slice(1)}`;
+            const text = t(key);
+            if (text && text !== key) {
+              const textNode = Array.from(label.childNodes).find(n => n.nodeType === 3 && n.textContent.trim());
+              if (textNode) {
+                textNode.textContent = text;
+              } else {
+                const span = document.createElement("span");
+                span.textContent = text;
+                label.insertBefore(span, input);
+              }
+            }
+          }
+        });
+      }
+
+      function setLang(lang, options = {}) {
+        const nextLang = translations[lang] ? lang : defaultLang;
+        currentLang = nextLang;
+        document.documentElement.lang = nextLang;
+        localStorage.setItem("preferredLang", nextLang);
+        document.querySelectorAll(".lang-switch button").forEach((button) => {
+          button.classList.toggle("active", button.dataset.lang === nextLang);
+        });
+        applyTranslations();
+        // Re-run analyze if there's a result
+        if ($("#verdictTitle") && $("#verdictTitle").textContent !== "-") {
+          analyze();
+        }
+        if (options.updateUrl) {
+          const url = new URL(window.location.href);
+          url.searchParams.set("lang", nextLang);
+          window.history.replaceState({}, "", url);
+        }
+      }
+
+      function detectLang() {
+        const params = new URLSearchParams(window.location.search);
+        const paramLang = params.get("lang");
+        if (supportedLangs.includes(paramLang)) return paramLang;
+        const stored = localStorage.getItem("preferredLang");
+        if (supportedLangs.includes(stored)) return stored;
+        const intlLocale =
+          typeof Intl === "object" && typeof Intl.DateTimeFormat === "function"
+            ? Intl.DateTimeFormat().resolvedOptions().locale
+            : "";
+        const sources = [
+          ...(navigator.languages || []),
+          navigator.language,
+          navigator.userLanguage,
+          intlLocale,
+        ]
+          .filter(Boolean)
+          .map((locale) => locale.toLowerCase());
+        const hasKorean = sources.some((locale) => locale.startsWith("ko"));
+        return hasKorean ? "ko" : "en";
+      }
+
+      document.querySelectorAll(".lang-switch button").forEach((button) => {
+        button.addEventListener("click", () => {
+          setLang(button.dataset.lang, { updateUrl: true });
+        });
+      });
+
+      setLang(detectLang(), { updateUrl: false });
     </script>
   
 <ins class="adsbygoogle"
